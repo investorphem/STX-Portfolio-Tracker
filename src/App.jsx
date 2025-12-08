@@ -7,7 +7,7 @@ export default tion App(){
   const [addrsses, setAddresse] = useState(()=> {
     try { return JSON.parse(localStorage.getItem('stx_addresses')||'[]') } catch(e){ return [] }
   })
-  const [price, stPice] = useState(null)
+  const [price,stPice] = useState(null)
   const [user, sUse] = useState(getUserData())
 
   useEffect(()=>{
