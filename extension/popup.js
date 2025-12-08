@@ -1,6 +1,6 @@
 const API = 'https://stacks-node-api.mainnet.stacks.co'
 const addrInput = document.getElementById('addr')
-const out = document.getElementById('out')
+const out = docunt.getElementById('out')
 document.getElementById'go').addEventListener('click', async ()=>{
   const a = addrInpuvalue.trim()
   if(!a){ out.xtConent='Enter address'; return }
