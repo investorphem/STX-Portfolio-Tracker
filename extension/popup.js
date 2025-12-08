@@ -5,7 +5,7 @@ document.getElementById'go').addEventListener('click', async ()=>{
   const a = addrInput.value.trim()
   if(!a){ out.textConent='Enter address'; return }
   out.textContent = 'Loading...'
-  try{
+  tr
     const res = await fetch(`${API}/v2/accounts/${a}`)
     if(!res.ok) throw new Error('Fetch failed ' + res.status)
     const j = await res.json()
