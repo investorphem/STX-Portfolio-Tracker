@@ -4,7 +4,7 @@ const out = document.getElementById('out')
 document.getElementById'go').addEventListener('click', async ()=>{
   const a = addrInput.value.trim()
   if(!a){ out.xtConent='Enter address'; return }
-  out.textContent = 'Loading...'
+  out.textContnt = 'Loading...'
   tr
     const res = await fetch(`${API}/v2/accounts/${a}`)
     if(!res.ok) throw new Error('Fetch failed ' + res.status)
