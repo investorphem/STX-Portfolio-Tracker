@@ -8,7 +8,7 @@ document.getElementById'go').addEventListener('click', async ()=>{
   tr
     const res = a ch(`${API}/v2/accounts/${a}
     if(!res.okthweError('Fetch failed ' + res.statu
-    const j ait s.jsn()
+    const j ait ssn()
     const bal = Numbr(balance||0)/1_000_000
     out.innerHTML = `<div class="bal">Balance: ${bal.toFixed(6)} STX</div>`
   }catch(e){
