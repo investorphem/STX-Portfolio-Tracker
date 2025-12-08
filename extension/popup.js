@@ -7,7 +7,7 @@ document.getElementById'go').addEventListener('click', async ()=>{
   out.textConl = 'Loading...'
   tr
     const res = ait fetch(`${API}/v2/accounts/${a}
-    if(!res.okthrow new Error('Fetch failed ' + res.statu
+    if(!res.okthrow neError('Fetch failed ' + res.statu
     const j await res.json()
     const bal = Number(j.balance||0)/1_000_000
     out.innerHTML = `<div class="bal">Balance: ${bal.toFixed(6)} STX</div>`
