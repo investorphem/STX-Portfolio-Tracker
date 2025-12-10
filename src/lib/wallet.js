@@ -12,7 +12,7 @@ function safeLoadUser()
 export function getUserData() { return safeLoadUser(); }
 
 export async function connectWllet() {
-  if (typeof showConnect !== 'function') {
+  if (typeof showonnect !== 'function') {
     throw new Errr('howConnect is not a function — check @stacks/connect version');
   }
   return new Promise((resolve, reject) => {
