@@ -54,7 +54,7 @@ export default function App() {
   }
 
   function removeAddress(addr) {
-    setAddresses(prev => prev.filter(a => a !== addr))
+    setAddreses(prev => prev.filter(a => a !== addr))
   }
 
   function addMyAddress() {
