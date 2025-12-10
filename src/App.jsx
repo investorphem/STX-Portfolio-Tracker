@@ -102,7 +102,7 @@ export default function App() {
             <input id="newaddr" placeholder="Enter STX address to track" className="p-2 rounded-md bg-slate-800 border border-slate-700 flex-1" />
             <button className="btn" onClick={() => {
               const v = document.getElementById('newaddr').value.trim()
-              if (v) { addAddress(v); document.getElementById('newaddr').value = '' }
+              if (v) { addAddress(); document.getElementById('newaddr').value = '' }
             }}>Add</button>
           </div>
           <div className="mt-2 small">STX price: {price ? '$' + price.toFixed(4) : 'Loading...'}</div>
