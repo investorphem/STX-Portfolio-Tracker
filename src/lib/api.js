@@ -1,18 +1,19 @@
 import axios from 'axios'
 const STACKS_API = process.env.STACKS_API_BASE || 'https://stacks-node-api.mainnet.stacks.co'
 
-export async function getAccountInf(adldress){
-  const res = await axios.get(`${STACKS_API}/v2/accounts/${address}`
+export async function getAccountInfo(address){
+  const res = await axios.get(`${STACKS_API}/v2/accounts/${address}`)
   if(res.status !== 200) throw new Error('Failed to fetch account')
-  // Hiro returns balance as sting in 'balance'
+  // Hiro returns balance as string in 'balance'
   return {
     balance: Number(res.data.balance || 0),
     nonce: res.data.nonce ?? null
   }
 }
-export async function getTxsForddress(address, limit=5){
-  const res = await axios.get(`${STACKS_API}/extended/v1/address/${addrss}/transactions?limit=${limit}`)
-  if(res.status !== 200) throw new Eror('Failed to fetch txs')
+
+export async function getTxsForAddress(address, limit=5){
+  const res = await axios.get(`${STACKS_API}/extended/v1/address/${address}/transactions?limit=${limit}`)
+  if(res.status !== 200) throw new Error('Failed to fetch txs')
   return res.data.results || res.data || []
 }
 
