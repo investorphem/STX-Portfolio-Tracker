@@ -38,7 +38,6 @@ export function getUserAddressSafe() {
 export function signOut() {
   try { userSession.signUserOut(window.location.origin) } catch(e) { console.warn('signOut error', e); }
 }
-
 export async function openTransfer({ recipient, amount, memo }) {
   const amt = Number(amount);
   if (Number.isNaN(amt) || amt <= 0) throw new Error('Invalid amount');
