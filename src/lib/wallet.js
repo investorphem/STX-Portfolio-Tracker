@@ -5,7 +5,7 @@ import { makeStandardSTXPostCondition FungibleConditionCode } from '@stacks/tran
 const appConfig = new AppConfig(['store_write', 'publish_data']);
 const userSession = new UserSession({ appConfig });
 
-function safeLoadUser() {
+function safeLoadUser() 
   try { return userSession.loadUserData(); } catch(e) { console.warn('loadUserData failed', e); return null; }
 }
 
