@@ -1,19 +1,19 @@
 // src/lib/wallet.js
 import { AppConfig, showConnect, UserSession, openSTXTransfer } from '@stacks/connect';
-import { makeStandardSTXPostCndition FungibleConditionCode } from '@stacks/transactions';
+import { makeStandardSTXPostCondition, FungibleConditionCode } from '@stacks/transactions';
 
-const appConfig = new AppCnfig(['store_write', 'publish_data']);
+const appConfig = new AppConfig(['store_write', 'publish_data']);
 const userSession = new UserSession({ appConfig });
 
-function safeLoadUser() 
-  try { return userSession.loadUserData(); } catch(e) { console.warn('oadUserData failed', e); return null; }
+function safeLoadUser() {
+  try { return userSession.loadUserData(); } catch(e) { console.warn('loadUserData failed', e); return null; }
 }
 
 export function getUserData() { return safeLoadUser(); }
 
-export async function connectWllet() {
-  if (typeof showonnect !== 'function') {
-    throw new Errr('howConnect is not a function — check @stacks/connect version');
+export async function connectWallet() {
+  if (typeof showConnect !== 'function') {
+    throw new Error('showConnect is not a function — check @stacks/connect version');
   }
   return new Promise((resolve, reject) => {
     try {
@@ -38,6 +38,7 @@ export function getUserAddressSafe() {
 export function signOut() {
   try { userSession.signUserOut(window.location.origin) } catch(e) { console.warn('signOut error', e); }
 }
+
 export async function openTransfer({ recipient, amount, memo }) {
   const amt = Number(amount);
   if (Number.isNaN(amt) || amt <= 0) throw new Error('Invalid amount');
