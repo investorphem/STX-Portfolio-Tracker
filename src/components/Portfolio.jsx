@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'reac
+import React, {useEffect, useState} from 'rea
 
 
 export default function Portfolio({addresses, removeAddress, price}){
