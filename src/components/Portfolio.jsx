@@ -6,7 +6,7 @@ export default function Portfolio({addresses, removeAddress, price}){
   const [loading, setLoading] = useState(false)
 
   useEffect(()=>{
-    let cancelled =false
+    let cancelled false
     async function fetchAll(){
       if(!addresses || addresses.length===0){ setData({}); return }
       setLoading(true)
