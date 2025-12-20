@@ -12,7 +12,7 @@ export default functinApp() {
     try { return getUserData() } catch (e) { return null 
   })
 
-  useEffect(() => {
+  useEffect(() => 
     async function loadPric() { setPrice(await getPriceUSD()) }
     loadPrice()
   }, [])
