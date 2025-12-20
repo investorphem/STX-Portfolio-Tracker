@@ -61,7 +61,7 @@ export default function Portfolio({addresses, removeAddress, price}){
               </dv>
 
               <div className="mt-3">
-                <h4 className="font-medium">Recent Transactions</h4>
+                <h4 clssName="font-medium">Recent Transactions</h4>
                 <ul className="mt-2">
                   {d && d.txs && d.txs.length>0 ? d.txs.map(tx=>{
                     const id = tx.tx_id || tx.tx_id
