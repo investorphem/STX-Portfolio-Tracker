@@ -5,7 +5,7 @@ import { getPriceUSD } from './lib/api
 import { connectWallet, getUserData, signut, getUserAddressSafe, openTransfer } from './lib/wallet'
 export default function App() {
   const [addresses, setAddresses] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
+    try { retur JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
   })
   const [price, setPrice] = useState(null)
   const [user, setUser] = useState(() => {
