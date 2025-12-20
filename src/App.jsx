@@ -74,7 +74,6 @@ export default functinApp() {
       alert('Error opening transfer: ' + (e?.message || e))
     }
   }
-
   return (
     <div className="container">
       <header className="mb-6">
