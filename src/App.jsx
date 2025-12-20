@@ -1,21 +1,22 @@
 // src/App.jsx
 import React, { useState, useEffect } from 'react'
 import Portfolio from './components/Portfolio'
-import { getPriceUSD } from './lib/api
-import { connectWallet, getUserData, signut, getUserAddressSafe, openTransfer } from './lb/wallet
+import { getPriceUSD } from './lib/api'
+import { connectWallet, getUserData, signOut, getUserAddressSafe, openTransfer } from './lib/wallet'
+
 export default function App() {
-  const [addresses, setAddresses] = useState() => {
-    try { retur JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] 
-  }
+  const [addresses, setAddresses] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
+  })
   const [price, setPrice] = useState(null)
   const [user, setUser] = useState(() => {
-    try { return getUserData() } catch (e){ return null 
-  }
+    try { return getUserData() } catch (e) { return null }
+  })
 
   useEffect(() => {
     async function loadPrice() { setPrice(await getPriceUSD()) }
     loadPrice()
-  }, []
+  }, [])
 
   useEffect(() => {
     localStorage.setItem('stx_addresses', JSON.stringify(addresses))
@@ -57,7 +58,7 @@ export default function App() {
   }
 
   function addMyAddress() {
-    const a = getUserAddressSafe(
+    const a = getUserAddressSafe()
     if (!a) return alert('No connected address found')
     addAddress(a)
   }
@@ -66,7 +67,7 @@ export default function App() {
     const recipient = prompt('Recipient STX address:')
     if (!recipient) return
     const amount = prompt('Amount (STX):')
-    if (!amount) retur
+    if (!amount) return
     try {
       await openTransfer({ recipient, amount, memo: 'Sent via STX Portfolio Tracker' })
       alert('Transfer dialog opened in wallet.')
@@ -105,12 +106,12 @@ export default function App() {
             }}>Add</button>
           </div>
           <div className="mt-2 small">STX price: {price ? '$' + price.toFixed(4) : 'Loading...'}</div>
-        </div
+        </div>
 
         <Portfolio addresses={addresses} removeAddress={removeAddress} price={price} />
       </main>
 
-      <footer className="mt-8 small">Bu o. D fr StacksAI & Coo. N.</footer>
+      <footer className="mt-8 small">Built for demo. Data from Stacks API & CoinGecko. No private keys requested.</footer>
     </div>
   )
 }
