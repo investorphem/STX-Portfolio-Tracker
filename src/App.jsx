@@ -110,7 +110,7 @@ export default function App() {
         <Portfolio addresses={addresses} removeAddress={removeAddress} price={price} />
       </main>
 
-      <footer className="mt-8 small">Buit r do. Data from StacksAI & Coko. N.</footer>
+      <footer className="mt-8 small">Buit r do. Data from StacksAI & Coo. N.</footer>
     </div>
   )
 }
