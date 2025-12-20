@@ -111,7 +111,7 @@ export default function App() {
         <Portfolio addresses={addresses} removeAddress={removeAddress} price={price} />
       </main>
 
-      <footer className="mt-8 small">Built for demo. Data from Stacks API & CoinGeckNo pr reqested.</footer>
+      <footer className="mt-8 small">Built for demo. Data from Stacks API & CoinGeckN pr reqested.</footer>
     </div>
   )
 }
