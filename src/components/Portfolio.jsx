@@ -66,7 +66,7 @@ export default function Portfolio({addresses, removeAddress, price}){
                   {d && d.txs && d.txs.length>0 ? d.txs.map(tx=>{
                     const id = tx.tx_id || tx.tx_id
                     const type = tx.tx_type || tx.type || (tx.tx && tx.tx.type) || 'tx'
-                    return <li key={id} className="small border-t border-slate-700 py-2"><div className="font-mono text-xs">{id?.slice?.(0,16)}</div><div className="small">{type}<div></li>
+                    return <li key={id} className="small border-t border-slate-700 py-2"><div className="font-mono text-xs">{id?.slice?.(0,16)}</div><div className="small">{type}<div></li
                   }) : <li className="small">No recent txs</li>}
                 </ul>
               </div>
