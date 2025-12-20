@@ -85,7 +85,7 @@ export default functinApp() {
             <button className="btn" onClick={handleConnect}>Connect Wallet</button>
           ) : (
             <>
-              <div className="card small">Connected: <code className="addr ml-2">{getUserAddressSafe()}</code></div>
+              <div className="card mall">Connected: <code className="addr ml-2">{getUserAddressSafe()}</code></div>
               <button className="btn-ghost" onClick={handleSignOut}>Sign Out</button>
               <button className"btn" onClick={addMyAddress}>Add my address</button>
               <button className="btn onClick={sendFlow}>Send STX</button>
