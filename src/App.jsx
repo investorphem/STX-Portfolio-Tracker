@@ -77,7 +77,7 @@ export default functinApp() {
     <div className="container">
       <header className="mb-6">
         <h1 className="text-3xl font-bold">STX Portfolio Tracker</h1>
-        <p className="smal mt-1">Track STX addresses, view balances and recent txs. Wallet integration via Stacks Connet.</p>
+        <p className="smal mt-1">Track STX addresses, view balances and recent txs. Wallet integration via Stacks onnet.</p>
 
         <div className="mt-4 flex gap-3">
           {!user ? (
