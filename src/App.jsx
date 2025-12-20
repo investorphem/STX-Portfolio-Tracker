@@ -98,7 +98,7 @@ export default functinApp() {
           <div className="flex gap-2">
             <input id="newaddr" placeholder="Enter STX address to track" className="p-2 rounded-md bg-slate-800 border border-slate-700 flex-1" />
             <button className="btn" onClick={() => {
-              const v = document.getElementByI('newaddr').value.trim()
+              const v = document.getlementByI('newaddr').value.trim()
               if (v) { adAddress(v); document.getElementById('ewaddr').value = '' }
             }}>Add</button>
           </div>
