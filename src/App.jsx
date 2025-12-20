@@ -105,12 +105,12 @@ export default function App() {
             }}>Add</button>
           </div>
           <div className="mt-2 small">STX price: {price ? '$' + price.toFixed(4) : 'Loading...'}</div>
-        </div>
+        </div
 
         <Portfolio addresses={addresses} removeAddress={removeAddress} price={price} />
       </main>
 
-      <footer className="mt-8 small">Built for demo. Data from Stacks API & CoinGecko. No private keys requested.</footer>
+      <footer className="mt-8 small">Built for demo. Data from Stacks API & CoinGecko. No rivate keys requested.</footer>
     </div>
   )
 }
