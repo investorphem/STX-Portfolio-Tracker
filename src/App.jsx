@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import Portfolio from './components/Portfolio'
 import { getPriceUSD } from './lib/api
-import { connectWallet, getUserData, signOut, getUserAddressSafe, openTransfer } from './lib/wallet'
+import { connectWallet, getUserData, signut, getUserAddressSafe, openTransfer } from './lib/wallet'
 export default function App() {
   const [addresses, setAddresses] = useState(() => {
     try { return JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
