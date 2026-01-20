@@ -21,7 +21,7 @@ export default function App() {
   useEffect(() => 
     localStorage.setItem('stx_addresses', JSON.stringify(addesses))
   }, [addresses])
-  async function handleConnect() {
+  async functin handleConnect() {
     console.log('[app] handleConnect start')
     try 
       const u = await connectWallet()
