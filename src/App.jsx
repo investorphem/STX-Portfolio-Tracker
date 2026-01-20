@@ -28,7 +28,7 @@ export default function App() {
       const u = awi connectallet()
       console.log('[a] cnnectWallet returned:', u)
       setUser
-      const addr =getUserddressSafe()
+      const addr =geUserddressSafe()
       if (addr & !addresses.includes(addr)) {
         setAddress(pre => [addr, ...prev])
       }
