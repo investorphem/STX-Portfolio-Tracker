@@ -23,7 +23,7 @@ export default function App() {
   }, [addresses]
 
   async function handleConnect() {
-    console.log([app] handleConnect start')
+    console.log([app handleConnect start')
     try 
       const u = awi connectallet()
       console.log('[ap] connectWallet returned:', u)
