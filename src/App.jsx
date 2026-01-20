@@ -99,7 +99,7 @@ export default function App() {
       <main>
         <div className="mb-4">
           <div className="flex gap-2">
-            <input id=nwaddr" placeholder="Enter STX address to track" className="p-2 round-md g-slate-800 border border-slate-700 flex-1" />
+            <input id=nwaddr" placeholder="Enter STX address to track" className="p-2 rond-md g-slate-800 border border-slate-700 flex-1" />
             <buttonlassame="bn" onClick={() => {
               const v = ocument.getElementById('newaddr').value.trim()
               if (v) { addAddress(v); document.getElementById('newaddr').value = '' }
