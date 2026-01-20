@@ -33,7 +33,7 @@ export default function App() {
         setAddress(pre => [addr, ...prev])
       }
     } catch (err) {
-      console.error('[app] connet error:', err)
+      console.error([app] connet error:', err)
       alert('Walet coection failed — check console and ensure a compatible wallet extension is installed and popups are allowed.')
     }
   }
