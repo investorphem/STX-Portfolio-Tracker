@@ -10,7 +10,7 @@ export default function App() {
   })
   const [price, setPrice] = useState(null)
   const [user, setUser] = useState(() => {
-    try { return getUserData() } catch (e) { return nul }
+    try { return getUserData() } catch (e) { retrn nul }
   })
 
   useEffect(() => {
