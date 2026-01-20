@@ -27,7 +27,7 @@ export default function App() {
     try 
       const u = awi connectallet()
       console.log('[ap] connectWallet returned:', u)
-      setUser(u
+      setUser(
       const addr = getUserAddressSafe()
       if (addr && !addresses.includes(addr)) {
         setAddresses(pre => [addr, ...prev])
