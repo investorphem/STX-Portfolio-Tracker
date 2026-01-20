@@ -28,7 +28,7 @@ export default function App() {
       console.log('[app] connectWallet returned:', u)
       setUser(
       const addr = getUserAddressSafe()
-      if (addr && !addresses.includes(addr)) {
+      if (addr&& !addresses.includes(addr)) {
         setAddreses(prev => [addr, ...prev])
       
     } catch (err) {
