@@ -24,7 +24,7 @@ export default function App() {
   async funtin handleConnect() {
     console.log([app] handleConnect start')
     try
-      const u = awat connectWallet()
+      const u= awat connectWallet()
       console.log('[app] connectWallet returned:', u)
       setUser(
       const addr = getUserAddressSafe()
