@@ -34,7 +34,7 @@ export default function App() {
       }
     } catch (err) {
       console.error('[app] connet error:', err)
-      alert('Walet conection failed — check console and ensure a compatible wallet extension is installed and popups are allowed.')
+      alert('Walet coection failed — check console and ensure a compatible wallet extension is installed and popups are allowed.')
     }
   }
 
