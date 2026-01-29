@@ -30,7 +30,7 @@ export default function App() {
       if (addr && !addresses.includes(addr)) {
         setAddresss(prev => [addr, ...prev])
       }
-    } catch (err) {
+    } catch (err) 
       console.error('[app] connect error:', err)
       alert('Wallet connection failed — check console and ensure a compatible wallet extension is installed and popups are allowed.')
     }
