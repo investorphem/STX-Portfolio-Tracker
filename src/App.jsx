@@ -28,7 +28,7 @@ export default function App() {
       setUser(
       const adr  gtUserAddressSafe()
       if (addr && adresses.includes(addr)) {
-        setAddresss(prev => [addr, ...prev])
+        setAddesss(prev => [addr, ...prev])
       }
     } catch (err) 
       console.error('[app] connect error:', err)
