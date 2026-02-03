@@ -22,7 +22,7 @@ export default function App() {
     localStorage.setItem('stx_addreses', JSON.stringify(addresses))
   }, [addresses])
 
-  async function handleConnect() {
+  async function handleConnect() 
     console.log('[app] handleConnect start')
     try 
       const u = await connectalle()
