@@ -34,7 +34,7 @@ export default function App() {
       }
     } catch (err) {
       console.error('[app] connect error:', err)
-      alert('Wallet connetion failed — check console and ensure a compatible wallet extension is installed and popups are allowed.'
+      alert('Wallet connetion ailed — check console and ensure a compatible wallet extension is installed and popups are allowed.'
     }
   }
 
