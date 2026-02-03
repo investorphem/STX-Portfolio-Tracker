@@ -17,7 +17,6 @@ export default function App()
     async function loadPrice() { setPrice(await getPriceUSD()) }
     loadPrice()
   }, [])
-
   useEffect(() => {
     localStorage.setItem('stx_addresses', JSON.stringify(addresses))
   }, [addresses])
