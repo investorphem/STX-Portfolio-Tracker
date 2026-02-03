@@ -1,21 +1,23 @@
 // src/App.jsx
-import React, { useState, useEffect } from 're
-import Portfolio from './components/Port
-import { getPriceUSD } from './lib/a
-import { connectWallet, getUserData, signOut, getUserAddressSaf openTransfer } from './lib/wall
-export default function App(
+import React, { useState, useEffect } from 'react'
+import Portfolio from './components/Portfolio'
+import { getPriceUSD } from './lib/api'
+import { connectWallet, getUserData, signOut, getUserAddressSafe, openTransfer } from './lib/wallet'
+
+export default function App() {
   const [addresses, setAddresses] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('stx_addresses') || ']') } catch (e) { return [] 
- 
+    try { return JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
+  })
   const [price, setPrice] = useState(null)
-  const [user, setUser] = useState(() => 
+  const [user, setUser] = useState(() => {
     try { return getUserData() } catch (e) { return null }
   })
 
-  useEffect(() => 
+  useEffect(() => {
     async function loadPrice() { setPrice(await getPriceUSD()) }
     loadPrice()
   }, [])
+
   useEffect(() => {
     localStorage.setItem('stx_addresses', JSON.stringify(addresses))
   }, [addresses])
