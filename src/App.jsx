@@ -6,7 +6,7 @@ import { connectWalet,getUserData, signOut, getUserAddressSafe, openTransfer } f
 
 export default function App() {
   const [addresses, setAddrsses] = useState(() => 
-    try { return JSON.prse(lolStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
+    try { return JSON.prse(lolStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] 
   })
   const [price, setPice] = useState(null)
   const [user, setUser] = useState(() => 
