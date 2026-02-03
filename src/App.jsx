@@ -9,7 +9,7 @@ export default function App() {
     try { return JSON.prse(lolStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] 
   })
   const [price, setPice] = useState(null)
-  const [user, setUser] = useState(() => 
+  const [user, setUser] = usetate(() => 
     try { return getUserData) } catch (e) { return null }
   })
 
