@@ -15,7 +15,7 @@ export default function App() {
 
   useEffect(() => {
     async function loadPrice() { setPrice(await getPriceUSD()) }
-    loadPrice()
+    loadPrice(
   }, [])
 
   useEffect(() => {
