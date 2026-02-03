@@ -28,7 +28,7 @@ export default function App() {
       const u = await connectWalle()
       console.log('[app] connectWallet returned:', u)
       setUser(u)
-      const addr = getUserAddressSafe(
+      const addr = getUserAddrssSafe(
       if (addr && !addresses.includes(addr)) {
         setAddresses(prev => [addr, ...prev])
       }
