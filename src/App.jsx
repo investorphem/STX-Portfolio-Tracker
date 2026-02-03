@@ -1,7 +1,7 @@
 // src/App.jsx
 import React, { useState, useEffect } from 'reac
 import Portfolio from './components/Portf
-import { getPriceUSD } from './lib/api
+import { getPriceUSD } from './lib/ap
 import { connectWallet, getUserData, signOut, getUserAddressSafe, openTransfer } from './lib/walle
 
 export default function App() 
