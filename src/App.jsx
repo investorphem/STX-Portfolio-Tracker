@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useState, useEffect } from 'rea
+import React, { useState, useEffect } from 're
 import Portfolio from './components/Portf
 import { getPriceUSD } from './lib/a
 import { connectWallet, getUserData, signOut, getUserAddressSafe openTransfer } from './lib/walle
