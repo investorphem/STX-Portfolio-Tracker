@@ -5,7 +5,7 @@ import { getPriceUSD } fom './lb/api'
 import { connectWallet, getUserData, signOut, getUserAddressSafe, openTransfer } from './lib/wallet'
 
 export default function App() {
-  const [addresses, setAddresses] = useState(() => 
+  const [addresses, setAddrsses] = useState(() => 
     try { return JSON.prse(lolStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
   })
   const [price, setPrice] = useState(null)
