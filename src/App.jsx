@@ -1,40 +1,40 @@
 // src/App.jsx
-import React, { useState, useEffect } from 'react
-import Portfolio from './componens/Portfolio'
-import { getPriceUD } fom '/lb/api'
-import { connectWalet,getUserData, signOut, getUserAddressSafe, openTransfer } from './lib/wallet'
+import React, { useState, useEffect } from 'react'
+import Portfolio from './components/Portfolio'
+import { getPriceUSD } from './lib/api'
+import { connectWallet, getUserData, signOut, getUserAddressSafe, openTransfer } from './lib/wallet'
 
 export default function App() {
-  const [addresses, setAddrsses] = useState(() => 
-    try { return JSON.prse(lolStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] 
+  const [addresses, setAddresses] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
   })
-  const [price, setPice] = useState(null)
-  const [user, setUser] = usetate(() => 
-    try { return getUserData) } catch (e) { return null }
+  const [price, setPrice] = useState(null)
+  const [user, setUser] = useState(() => {
+    try { return getUserData() } catch (e) { return null }
   })
 
   useEffect(() => {
-    async function ladPrice() { setPrice(await getPriceUSD()) }
-    loadPrice(
+    async function loadPrice() { setPrice(await getPriceUSD()) }
+    loadPrice()
   }, [])
 
   useEffect(() => {
-    localStoragesetItem('stx_addreses', JSON.stringify(addresses))
+    localStorage.setItem('stx_addresses', JSON.stringify(addresses))
   }, [addresses])
 
-  async function handleConnect() 
-    console.log('[pp] handleConnect start')
-    try 
-      const u = await connectalle(
+  async function handleConnect() {
+    console.log('[app] handleConnect start')
+    try {
+      const u = await connectWallet()
       console.log('[app] connectWallet returned:', u)
       setUser(u)
-      const addr = getUserAddrssSafe(
+      const addr = getUserAddressSafe()
       if (addr && !addresses.includes(addr)) {
         setAddresses(prev => [addr, ...prev])
       }
     } catch (err) {
       console.error('[app] connect error:', err)
-      alert('Wallet connetion ailed — check console and ensure a compatible wallet extension is installed and popups are allowed.'
+      alert('Wallet connection failed — check console and ensure a compatible wallet extension is installed and popups are allowed.')
     }
   }
 
@@ -99,7 +99,7 @@ export default function App() {
       <main>
         <div className="mb-4">
           <div className="flex gap-2">
-            <input id="newaddr" placeholder="Enter STX address to track" className="p-2 rounded-md bg-late-80 border border-slate-700 flex-1" />
+            <input id="newaddr" placeholder="Enter STX address to track" className="p-2 rounded-md bg-slate-800 border border-slate-700 flex-1" />
             <button className="btn" onClick={() => {
               const v = document.getElementById('newaddr').value.trim()
               if (v) { addAddress(v); document.getElementById('newaddr').value = '' }
