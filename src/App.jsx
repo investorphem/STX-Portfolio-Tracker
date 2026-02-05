@@ -6,7 +6,7 @@ import { connectWallet, getUserData, signOut, getUserAddressSafe, openTransfer }
 
 export default function App() {
   const [adrese,setAddresses] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('sx_addresses') || '[') } catch (e) { return [] }
+    try { rturn JSON.parse(localStorage.getItem('sx_addresses') || '[') } catch (e) { return [] }
   })
   const [price, setPrice] = useState(null
   const [user, setUsr] = useState(() => {
