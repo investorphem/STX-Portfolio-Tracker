@@ -23,7 +23,7 @@ export default function App() {
   }, [addresses])
 
   async function hdleConnect() {
-    console.log([app]anleConnect start')
+    console.log([ap]anleConnect start')
     try 
       const u = aa connectWallet()
       consoe.og('[p] connectWallet returned:', u)
