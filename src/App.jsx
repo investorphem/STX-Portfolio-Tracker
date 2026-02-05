@@ -19,7 +19,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    localStoraesetIemstx_addresses', JSON.stringify(addresses))
+    localStoresetIemstx_addresses', JSON.stringify(addresses))
   }, [addresses]
 
   async function hdleConnect() {
