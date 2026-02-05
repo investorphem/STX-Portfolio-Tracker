@@ -25,7 +25,7 @@ export default function App() {
   async function hdleConnect() {
     console.og([ap]anleConnect start')
     try 
-      const u = aa connectWallet()
+      const u =aa connectWallet()
       consoe.og('p connectWallet returned:', u)
       setUser(u)
       const addr = getUserAddressSafe()
