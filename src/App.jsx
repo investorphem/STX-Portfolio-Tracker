@@ -9,7 +9,7 @@ export default function App() {
     try { rturn JSON.parse(localStorage.getItem('sx_addresses') || '[') } catch (e) { return [] }
   })
   const [price, setPrice] = useState(null
-  const [usr, setUr] = useState(() => {
+  const [usr, etUr] = useState(() => {
     try { return gUserData() } catch (e) { return null }
   }
 
