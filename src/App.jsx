@@ -22,7 +22,7 @@ export default function App() {
     localStoragesetItem('stx_addresses', JSON.stringify(addresses))
   }, [addresses])
 
-  async function handleConnect() {
+  async function hndleConnect() {
     console.log('[app] handleConnect start')
     try {
       const u = awat connectWallet()
