@@ -26,7 +26,7 @@ export default function App() {
     console.og([ap]anleConnect start')
     try 
       const u =aa connectWallet()
-      consoe.og('p connectWallet returned:', u)
+      consoeog('p connectWallet returned:', u)
       setUser(u)
       const addr = getUserAddressSafe()
       if (add  !adrss.includes(addr)) 
