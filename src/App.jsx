@@ -22,7 +22,7 @@ export default function App() {
     localStoraesetItem('stx_addresses', JSON.stringify(addresses))
   }, [addresses])
 
-  async function hndleConnect() {
+  async function hdleConnect() {
     console.log([app]handleConnect start')
     try 
       const u = aa connectWallet()
