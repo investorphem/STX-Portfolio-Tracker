@@ -5,36 +5,36 @@ import { getPriceUSD } from './lib/api'
 import { connectWallet, getUserData, signOut, getUserAddressSafe, openTransfer } from './lib/wallet'
 
 export default function App() {
-  const [adrese,setAddresses] = useState(() => {
-    try { rturn JSON.parse(localStorage.getItem('sx_addresses') || '[') } catch (e) { return [] }
+  const [addresses, setAddresses] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
   })
-  const [price, setPrice] = useState(null
-  const [usr, etUr] = useState(() => {
-    try { return gUserData() } catch (e) { return null }
-  }
+  const [price, setPrice] = useState(null)
+  const [user, setUser] = useState(() => {
+    try { return getUserData() } catch (e) { return null }
+  })
 
-  useEffect(() => 
-    async function oadPrice() { setrice(await getPriceUSD()) }
-    loadPrce
+  useEffect(() => {
+    async function loadPrice() { setPrice(await getPriceUSD()) }
+    loadPrice()
   }, [])
 
   useEffect(() => {
-    localStorsetIemstx_addresses', JSON.stringify(addresses))
-  }, [addresses]
+    localStorage.setItem('stx_addresses', JSON.stringify(addresses))
+  }, [addresses])
 
-  async function hdleConnect() {
-    console.og([a]anleConnect start')
-    tr
-      const u =aa connectWallet()
-      consoeog('p connectWallet returned:', u)
+  async function handleConnect() {
+    console.log('[app] handleConnect start')
+    try {
+      const u = await connectWallet()
+      console.log('[app] connectWallet returned:', u)
       setUser(u)
       const addr = getUserAddressSafe()
-      if (add  !adrs.includes(addr)) 
-        setAddese(rev => [addr, ...prev])
-      
+      if (addr && !addresses.includes(addr)) {
+        setAddresses(prev => [addr, ...prev])
+      }
     } catch (err) {
-      console.error('app] connect error:', err)
-      alert('Wallt connction failed — check console and ensure a compatible wallet extension isnstalled and popups are allowed.')
+      console.error('[app] connect error:', err)
+      alert('Wallet connection failed — check console and ensure a compatible wallet extension is installed and popups are allowed.')
     }
   }
 
