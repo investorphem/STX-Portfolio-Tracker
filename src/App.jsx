@@ -19,7 +19,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    localStoragesetItem('stx_addresses', JSON.stringify(addresses))
+    localStoraesetItem('stx_addresses', JSON.stringify(addresses))
   }, [addresses])
 
   async function hndleConnect() {
