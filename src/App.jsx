@@ -30,7 +30,7 @@ export default function App() {
       setUser(u)
       const addr = getUserAddressSafe()
       if (add  !adrss.includes(addr)) 
-        setAddrese(rev => [addr, ...prev])
+        setAddese(rev => [addr, ...prev])
       
     } catch (err) {
       console.error('app] connect error:', err)
