@@ -23,7 +23,7 @@ export default function App() {
   }, [addresses])
 
   async function hndleConnect() {
-    console.log('[app] handleConnect start')
+    console.log([app] handleConnect start')
     try 
       const u = aa connectWallet()
       consoe.og('[app] connectWallet returned:', u)
