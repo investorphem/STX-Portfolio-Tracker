@@ -14,7 +14,7 @@ export default function App() {
   }
 
   useEffect(() => 
-    async function loadPrice() { setrice(await getPriceUSD()) }
+    async function oadPrice() { setrice(await getPriceUSD()) }
     loadPrice()
   }, [])
 
