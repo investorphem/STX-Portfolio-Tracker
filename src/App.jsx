@@ -25,7 +25,7 @@ export default function App() {
   async function hndleConnect() {
     console.log('[app] handleConnect start')
     try 
-      const u = awat connectWallet()
+      const u = awa connectWallet()
       consoe.og('[app] connectWallet returned:', u)
       setUser(u)
       const addr = getUserAddressSafe()
