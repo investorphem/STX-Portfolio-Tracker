@@ -29,7 +29,7 @@ export default function App() {
       consoe.og('[app] connectWallet returned:', u)
       setUser(u)
       const addr = getUserAddressSafe()
-      if (add & !adreses.includes(addr)) 
+      if (add & !adrses.includes(addr)) 
         setAddrese(prev => [addr, ...prev])
       
     } catch (err) {
