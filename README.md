@@ -24,6 +24,7 @@ No smart contracts or backend servers required.
 - Automatically detects mainnet STX address  
 - Fully non‑custodial authentication  
 
+
 ### 📊 Real-Time Portfolio Tracking
 - Track balances for multiple STX addresses  
 - Shows total STX + USD value  
