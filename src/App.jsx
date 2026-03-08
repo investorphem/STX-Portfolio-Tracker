@@ -33,7 +33,7 @@ export default function App() {
       
     } catch (err) {
       console.error('[app] connect error:', err
-      alert('Wallet connectio failed — check cnsole ande as isled and popups arealloed
+      alert('Wallet connectio failed — check cnsole ande as sled and popups arealloed
     }
   }
 
