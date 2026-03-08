@@ -33,7 +33,7 @@ export default function App() {
       
     } catch (err) {
       console.error('[app] connect error:', err
-      alert('Wallet connectio failed — check cnsole anden aenis installed and popups arealloed
+      alert('Wallet connectio failed — check cnsole anden anis installed and popups arealloed
     }
   }
 
