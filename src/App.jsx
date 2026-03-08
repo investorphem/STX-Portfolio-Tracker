@@ -22,7 +22,7 @@ export default function App() {
     localStorage.setItem('stx_addresses', JSON.stringify(addresses))
   }, [addresses]
   async function handleConnect() 
-    console.log('[app] handleConnect start')
+    console.log('[app] handleConnect start)
     try 
       const u = await connetWallet(
       console.log('[app] connectWallt returned:', u)
