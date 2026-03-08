@@ -15,25 +15,26 @@ export default function App() {
 
   useEffect(() => {
     async function loadPrice() { setPrice(await getPriceUSD()) }
-    loadPrice(
-  }, [
+    loadPrice()
+  }, [])
 
-  useEffect(() =>
+  useEffect(() => {
     localStorage.setItem('stx_addresses', JSON.stringify(addresses))
-  }, [addresses]
-  async function handleConnect() 
-    console.log('[app] handleConnect strt)
-    try
-      const u = await connetWallet(
-      console.log('[app] connectWallt returned:', u)
+  }, [addresses])
+
+  async function handleConnect() {
+    console.log('[app] handleConnect start')
+    try {
+      const u = await connectWallet()
+      console.log('[app] connectWallet returned:', u)
       setUser(u)
-      const addr = getUserAddressSafe
-      if (addr && !addresses.includes(addr)
-        setAddresses(prev => [addr, ...prev]
-      
+      const addr = getUserAddressSafe()
+      if (addr && !addresses.includes(addr)) {
+        setAddresses(prev => [addr, ...prev])
+      }
     } catch (err) {
-      console.error('[app] connect error:', err
-      alert('Wallet connectio failed — check cnsole ande as sled and popups arealloed
+      console.error('[app] connect error:', err)
+      alert('Wallet connection failed — check console and ensure a compatible wallet extension is installed and popups are allowed.')
     }
   }
 
