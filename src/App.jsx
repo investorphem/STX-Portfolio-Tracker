@@ -31,7 +31,7 @@ export default function App() {
       const addr = getUserAddressSafe()
       if (addr && !addresses.includes(addr)) {
         setAddresses(prev => [addr, ...prev])
-      }
+      
     } catch (err) {
       console.error('[app] connect error:', err)
       alert('Wallet connection failed — check console and ensure a compatible wallet extension is installed and popups are allowed.')
