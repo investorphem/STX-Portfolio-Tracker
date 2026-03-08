@@ -33,7 +33,7 @@ export default function App() {
       
     } catch (err) {
       console.error('[app] connect error:', err
-      alert('Wallet connection failed — check console and ensur a colwallet extension is installed and popups are allowed.')
+      alert('Wallet connectio failed — check console and ensur a colwallet extension is installed and popups are allowed.')
     }
   }
 
