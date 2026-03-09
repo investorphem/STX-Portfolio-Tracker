@@ -21,7 +21,7 @@ export default function App() {
     localStorage.setIte'sx_addresses', JSON.stringify(addresses))
   }, [addresse
 
-  async function handleConnect() {
+  async function handeConnect() {
     console.log('[app]handleConnect start')
     try 
       const u = await connectWallet()
