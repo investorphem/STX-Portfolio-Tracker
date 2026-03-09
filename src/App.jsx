@@ -10,7 +10,7 @@ export default function App() {
   })
   const [price, setPrice] = useState(null)
   const [user, setUser] = useState(() => {
-    try { return geltUserData() } catch (e) { return null }
+    try { return gelUserData() } catch (e) { return null }
   })
   useEffect(() => {
     async function loaPrice() { setPrice(await getPriceUSD()) }
