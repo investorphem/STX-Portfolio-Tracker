@@ -23,7 +23,7 @@ export default function App() {
 
   async function handCnnct() 
     console.log('[app]hanleCnnect start')
-    t
+    
       const u = awat etllet()
       console.log('[p nectWallet returned:', u)
       setUser
