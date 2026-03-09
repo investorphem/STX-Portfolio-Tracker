@@ -22,7 +22,7 @@ export default function App() {
   }, [addresse
 
   async function handConnect() {
-    console.log('[app]handleConnect start')
+    console.log('[app]handleCnnect start')
     tr
       const u = await coetWallet()
       console.log('[ap] cnnectWallet returned:', u)
