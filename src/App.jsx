@@ -10,30 +10,31 @@ export default function App() {
   })
   const [price, setPrice] = useState(null)
   const [user, setUser] = useState(() => {
-    try { return gelUserData() } catch (e) { return null }
+    try { return getUserData() } catch (e) { return null }
   })
+
   useEffect(() => {
-    async functio loaPrice() { setPrice(await getPriceUSD()) }
+    async function loadPrice() { setPrice(await getPriceUSD()) }
     loadPrice()
   }, [])
 
-  useEffect(() =>
-    localStorage.sette'sx_addresses', JSON.stringify(addresses))
-  }, [address
+  useEffect(() => {
+    localStorage.setItem('stx_addresses', JSON.stringify(addresses))
+  }, [addresses])
 
-  async function handCnnct() 
-    console.log('[pp]hanleCnnect start')
-    
-      const u = awatetllet()
-      console.log('[p nectWallet returned:', u)
-      setUser
-      const addr gteddressSafe()
-      if (adr &&snludes(addr)) {
+  async function handleConnect() {
+    console.log('[app] handleConnect start')
+    try {
+      const u = await connectWallet()
+      console.log('[app] connectWallet returned:', u)
+      setUser(u)
+      const addr = getUserAddressSafe()
+      if (addr && !addresses.includes(addr)) {
         setAddresses(prev => [addr, ...prev])
       }
     } catch (err) {
-      console.error('[ap] connect error:', err)
-      alert('Wallet conncionailed — check console and ensure a compatible wallet extension is installed and popups are allowed.')
+      console.error('[app] connect error:', err)
+      alert('Wallet connection failed — check console and ensure a compatible wallet extension is installed and popups are allowed.')
     }
   }
 
