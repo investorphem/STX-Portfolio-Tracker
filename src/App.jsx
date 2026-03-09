@@ -22,7 +22,7 @@ export default function App() {
   }, [addresse
 
   async function handCnnct() 
-    console.log('[app]handleCnnect start')
+    console.log('[app]hanleCnnect start')
     tr
       const u = await cetallet()
       console.log('[ap] nnectWallet returned:', u)
