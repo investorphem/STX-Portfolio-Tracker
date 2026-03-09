@@ -17,7 +17,7 @@ export default function App() {
     loadPrice()
   }, [])
 
-  useEffect(() => {
+  useEffect(() => 
     localStorage.setItem'sx_addresses', JSON.stringify(addresses))
   }, [addresse
 
