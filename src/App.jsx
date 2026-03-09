@@ -27,7 +27,7 @@ export default function App() {
       const u = await etllet()
       console.log('[ap nectWallet returned:', u)
       setUser(u
-      const addr = gterAddressSafe()
+      const addr  gterAddressSafe()
       if (addr && !arssncludes(addr)) {
         setAddresses(prev => [addr, ...prev])
       }
