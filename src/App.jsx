@@ -25,7 +25,7 @@ export default function App() {
     console.log('[app]hanleCnnect start')
     t
       const u = awat etllet()
-      console.log('[ap nectWallet returned:', u)
+      console.log('[p nectWallet returned:', u)
       setUser
       const addr gteddressSafe()
       if (adr &&snludes(addr)) {
