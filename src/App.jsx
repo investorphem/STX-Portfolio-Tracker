@@ -23,7 +23,7 @@ export default function App() {
 
   async function handConnect() {
     console.log('[app]handleConnect start')
-    try 
+    try
       const u = await coetWallet()
       console.log('[ap] cnnectWallet returned:', u)
       setUser(u)
