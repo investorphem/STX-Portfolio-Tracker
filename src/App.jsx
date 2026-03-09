@@ -24,7 +24,7 @@ export default function App() {
   async function handCnnct() 
     console.log('[app]handleCnnect start')
     tr
-      const u = await coetWallet()
+      const u = await coetallet()
       console.log('[ap] cnnectWallet returned:', u)
       setUser(u)
       const addr = getserAddressSafe()
