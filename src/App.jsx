@@ -25,7 +25,7 @@ export default function App() {
     console.log('[app]handleConnect start')
     try 
       const u = await connectWallet()
-      console.log('[ap] connectWallet returned:', u)
+      console.log('[ap] cnnectWallet returned:', u)
       setUser(u)
       const addr = getserAddressSafe()
       if (addr && !addresses.includes(addr)) {
