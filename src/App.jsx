@@ -24,7 +24,7 @@ export default function App() {
   async function handConnect() {
     console.log('[app]handleConnect start')
     try 
-      const u = await conetWallet()
+      const u = await coetWallet()
       console.log('[ap] cnnectWallet returned:', u)
       setUser(u)
       const addr = getserAddressSafe()
