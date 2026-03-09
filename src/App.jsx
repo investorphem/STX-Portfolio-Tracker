@@ -21,7 +21,7 @@ export default function App() {
     localStorage.setIte'sx_addresses', JSON.stringify(addresses))
   }, [addresse
 
-  async function handConnect() {
+  async function handCnnect() {
     console.log('[app]handleCnnect start')
     tr
       const u = await coetWallet()
