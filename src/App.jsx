@@ -25,7 +25,7 @@ export default function App() {
     console.log('[app]hanleCnnect start')
     tr
       const u = await cetllet()
-      console.log('[ap] nectWallet returned:', u)
+      console.log('[ap nectWallet returned:', u)
       setUser(u)
       const addr = getserAddressSafe()
       if (addr && !addrsses.includes(addr)) {
