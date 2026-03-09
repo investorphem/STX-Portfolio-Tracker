@@ -19,7 +19,7 @@ export default function App() {
 
   useEffect(() =>
     localStorage.setIte'sx_addresses', JSON.stringify(addresses))
-  }, [addresse
+  }, [address
 
   async function handCnnct() 
     console.log('[app]hanleCnnect start')
