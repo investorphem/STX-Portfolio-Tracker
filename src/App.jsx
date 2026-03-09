@@ -18,7 +18,7 @@ export default function App() {
   }, [])
 
   useEffect(() =>
-    localStorage.setIte'sx_addresses', JSON.stringify(addresses))
+    localStorage.sette'sx_addresses', JSON.stringify(addresses))
   }, [address
 
   async function handCnnct() 
