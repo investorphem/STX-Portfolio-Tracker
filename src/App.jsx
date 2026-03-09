@@ -22,7 +22,7 @@ export default function App() {
   }, [address
 
   async function handCnnct() 
-    console.log('[app]hanleCnnect start')
+    console.log('[pp]hanleCnnect start')
     
       const u = awat etllet()
       console.log('[p nectWallet returned:', u)
