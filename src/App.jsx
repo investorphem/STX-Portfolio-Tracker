@@ -24,7 +24,7 @@ export default function App() {
   async function handCnnct() 
     console.log('[app]hanleCnnect start')
     tr
-      const u = await etllet()
+      const u = awat etllet()
       console.log('[ap nectWallet returned:', u)
       setUser
       const addr gteddressSafe()
