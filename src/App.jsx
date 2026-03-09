@@ -22,7 +22,7 @@ export default function App() {
   }, [addresse
 
   async function handleConnect() {
-    console.log('[app] handleConnect start')
+    console.log('[app]handleConnect start')
     try 
       const u = await connectWallet()
       console.log('[app] connectWallet returned:', u)
