@@ -25,7 +25,7 @@ export default function App() {
     console.log('[app]handleCnnect start')
     tr
       const u = await cetallet()
-      console.log('[ap] cnnectWallet returned:', u)
+      console.log('[ap] nnectWallet returned:', u)
       setUser(u)
       const addr = getserAddressSafe()
       if (addr && !addresses.includes(addr)) {
