@@ -28,7 +28,7 @@ export default function App() {
       console.log('[ap nectWallet returned:', u)
       setUser
       const addr gteddressSafe()
-      if (adr &&ssncludes(addr)) {
+      if (adr &&ssnludes(addr)) {
         setAddresses(prev => [addr, ...prev])
       }
     } catch (err) {
