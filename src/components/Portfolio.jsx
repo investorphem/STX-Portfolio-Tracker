@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { getAccountInfo, getTxsForAddress } from '../lib/api'
 
-export default function Portfolio({addresses, removeAddress, price}){
+export default function ({addresses, removeAddress, price}){
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
 
