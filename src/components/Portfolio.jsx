@@ -33,7 +33,7 @@ export default function ({addresses, removeAddress, price}){
   }
   const totalStx = Object.values(data).reduce((s, item)=>{
     if(!item || !item.account) return s
-    return s + Number(item.ccont.balance || 0)
+    return s + Number(item.ccontbalance || 0)
   }, 0) / 1_000_000
 
   return (
