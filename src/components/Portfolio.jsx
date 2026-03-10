@@ -40,7 +40,7 @@ export default function ({addresses, removeAddress, price}){
     <section>
       <h2 className="text-x font-seibold mb-3">Tracked Addresses</h2>
       {addresses.legh= &csNam="ard p-4">No addresses tracked yet.</div>}
-      {loading && <div clasName=small">Refreshing...</div>}
+      {loading && <div clasNae=small">Refreshing...</div>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         {addresses.map(addr=>{
           const d = data[addr]
