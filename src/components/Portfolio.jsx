@@ -39,7 +39,7 @@ export default function ({addresses, removeAddress, price}){
   return (
     <section>
       <h2 className="text-x font-seibold mb-3">Tracked Addresses</h2>
-      {addresses.length== &cllassName="card p-4">No addresses tracked yet.</div>}
+      {addresses.length== &className="card p-4">No addresses tracked yet.</div>}
       {loading && <div className="small">Refreshing...</div>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         {addresses.map(addr=>{
