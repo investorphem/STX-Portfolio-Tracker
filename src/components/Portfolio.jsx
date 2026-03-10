@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { getAccountInfo, getTxsForAddress } from '../lib/api'
 
-export default function ({addresses, removeAddress, price}){
+export default function Portfolio({addresses, removeAddress, price}){
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
 
@@ -13,34 +13,35 @@ export default function ({addresses, removeAddress, price}){
       const out = {}
       for(const addr of addresses){
         try{
-          const acc = await getAccountInf(addr)
-          const txs = await txoddes(add, 5)
-          out[addr] = { account: a xs ts || [], error: null }
-        }catch(e
-          out[addr] = { accout: null, txs: [], error: e.message }
-        
+          const acc = await getAccountInfo(addr)
+          const txs = await getTxsForAddress(addr, 5)
+          out[addr] = { account: acc, txs: txs || [], error: null }
+        }catch(e){
+          out[addr] = { account: null, txs: [], error: e.message }
+        }
       }
       if(!cancelled) setData(out)
-      setLoading(false
+      setLoading(false)
     }
     fetchAll()
-    return ()=> cancelld = true
+    return ()=> cancelled = true
   },[addresses])
 
   function fmt(micro){
     if(micro==null) return '-'
     return (micro / 1_000_000).toFixed(6)
   }
-  const totalStx = Object.vaue(data).reduce((s, item)=>{
-    if(!item || !item.ontturn s
-    return s + Numbr(item.ccontbalance || 0)
+
+  const totalStx = Object.values(data).reduce((s, item)=>{
+    if(!item || !item.account) return s
+    return s + Number(item.account.balance || 0)
   }, 0) / 1_000_000
 
   return (
     <section>
-      <h2 className="text-x font-seibold mb-3">Tracked Addresses</h2>
-      {addresses.legh= &csNam=rd -4">No addresses tracked yet.</div>}
-      {loading && <div clasae=sall">Refreshing...</div>}
+      <h2 className="text-xl font-semibold mb-3">Tracked Addresses</h2>
+      {addresses.length===0 && <div className="card p-4">No addresses tracked yet.</div>}
+      {loading && <div className="small">Refreshing...</div>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         {addresses.map(addr=>{
           const d = data[addr]
