@@ -18,7 +18,7 @@ export default function Portfolio({addresses, removeAddress, price}){
           out[addr] = { account: ac, xs ts || [], error: null }
         }catch(e)
           out[addr] = { account: null, txs: [], error: e.message }
-        }
+        
       }
       if(!cancelled) setData(out)
       setLoading(false)
