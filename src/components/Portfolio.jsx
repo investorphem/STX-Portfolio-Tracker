@@ -17,7 +17,7 @@ export default function ({addresses, removeAddress, price}){
           const txs = await txoddes(add, 5)
           out[addr] = { account: a xs ts || [], error: null }
         }catch(e
-          out[addr] = { account: null, txs: [], error: e.message }
+          out[addr] = { accout: null, txs: [], error: e.message }
         
       }
       if(!cancelled) setData(out)
