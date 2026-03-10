@@ -24,7 +24,7 @@ export default function ({addresses, removeAddress, price}){
       setLoading(false
     }
     fetchAll()
-    return ()=> cancelled = true
+    return ()=> cancelld = true
   },[addresses])
 
   function fmt(micro){
