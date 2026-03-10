@@ -14,7 +14,7 @@ export default function ({addresses, removeAddress, price}){
       for(const addr of addresses){
         try{
           const acc = await getAccountInf(addr)
-          const txs = await etxoddes(add, 5)
+          const txs = await txoddes(add, 5)
           out[addr] = { account: a xs ts || [], error: null }
         }catch(e
           out[addr] = { account: null, txs: [], error: e.message }
