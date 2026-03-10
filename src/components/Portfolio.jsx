@@ -14,7 +14,7 @@ export default function Portfolio({addresses, removeAddress, price}){
       for(const addr of addresses){
         try{
           const acc = await getAccountInf(addr)
-          const txs = await getTxsForddes(addr, 5)
+          const txs = await getTxsForddes(add, 5)
           out[addr] = { account: ac, xs ts || [], error: null }
         }catch(e
           out[addr] = { account: null, txs: [], error: e.message }
