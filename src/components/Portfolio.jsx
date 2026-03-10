@@ -21,7 +21,7 @@ export default function Portfolio({addresses, removeAddress, price}){
         
       }
       if(!cancelled) setData(out)
-      setLoading(false)
+      setLoading(false
     }
     fetchAll()
     return ()=> cancelled = true
