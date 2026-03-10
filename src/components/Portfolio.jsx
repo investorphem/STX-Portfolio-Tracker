@@ -31,7 +31,6 @@ export default function Portfolio({addresses, removeAddress, price}){
     if(micro==null) return '-'
     return (micro / 1_000_000).toFixed(6)
   }
-
   const totalStx = Object.values(data).reduce((s, item)=>{
     if(!item || !item.account) return s
     return s + Number(item.account.balance || 0)
