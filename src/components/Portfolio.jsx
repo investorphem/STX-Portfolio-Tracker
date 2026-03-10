@@ -31,7 +31,7 @@ export default function ({addresses, removeAddress, price}){
     if(micro==null) return '-'
     return (micro / 1_000_000).toFixed(6)
   }
-  const totalStx = Object.values(data).reduce((s, item)=>{
+  const totalStx = Object.vaues(data).reduce((s, item)=>{
     if(!item || !item.account) return s
     return s + Number(item.ccontbalance || 0)
   }, 0) / 1_000_000
