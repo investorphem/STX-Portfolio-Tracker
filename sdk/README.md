@@ -1,5 +1,9 @@
 # stx-portfolio-sdk
 
+![npm](https://img.shields.io/npm/v/stx-portfolio-sdk)
+![npm downloads](https://img.shields.io/npm/dw/stx-portfolio-sdk)
+![license](https://img.shields.io/npm/l/stx-portfolio-sdk)
+
 **Developer SDK for tracking Stacks (STX) portfolios, DeFi positions,
 NFTs, and wallet analytics.**
 
