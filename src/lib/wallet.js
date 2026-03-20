@@ -1,5 +1,6 @@
 import { connect, disconnect, isConnected, getLocalStorage, request } from '@stacks/connect';
-import { makeStandardSTXPostCondition, FungibleConditionCode } from '@stacks/transactions';
+// Import Pc (Post-Condition helper) instead of the deprecated makeStandardSTXPostCondition
+import { Pc } from '@stacks/transactions';
 
 /**
  * Returns user data if connected.
@@ -36,7 +37,7 @@ export function signOut() {
 }
 
 /**
- * Modern v8 STX Transfer
+ * Modern v8 STX Transfer with V7 Transactions Syntax
  */
 export async function openTransfer({ recipient, amount, memo }) {
   const from = getUserAddressSafe();
@@ -45,12 +46,16 @@ export async function openTransfer({ recipient, amount, memo }) {
   // 1 STX = 1,000,000 microSTX
   const microStx = BigInt(Math.round(Number(amount) * 1_000_000));
 
+  // The modern way to define a "Less Than or Equal" STX Post Condition
+  const postConditions = [
+    Pc.stx(from).lte(microStx)
+  ];
+
   // In v8, we use 'stx_transferStx' with JSON-RPC params
   return await request('stx_transferStx', {
     recipient,
     amount: microStx.toString(),
     memo: memo || '',
-    // Note: Simple STX transfers in v8 often handle post-conditions 
-    // automatically, but you can pass them if specific control is needed.
+    postConditions
   });
 }
