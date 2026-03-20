@@ -1,28 +1,52 @@
 import axios from 'axios'
-const STACKS_API = process.env.STACKS_API_BASE || 'https://stacks-node-api.mainnet.stacks.co'
 
-export async function getAccountInfo(address){
-  const res = await axios.get(`${STACKS_API}/v2/accounts/${address}`)
-  if(res.status !== 200) throw new Error('Failed to fetch account')
-  // Hiro returns balance as string in 'balance'
-  return {
-    balance: Number(res.data.balance || 0),
-    nonce: res.data.nonce ?? null
+// Vite uses import.meta.env instead of process.env
+const STACKS_API = import.meta.env.VITE_STACKS_API || 'https://api.mainnet.hiro.so'
+
+/**
+ * Fetches account balance and converts microSTX to STX
+ */
+export async function getAccountInfo(address) {
+  try {
+    const res = await axios.get(`${STACKS_API}/extended/v1/address/${address}/balances`)
+    
+    // Hiro API returns 'stx' object with 'balance' in microSTX
+    const microBalance = res.data?.stx?.balance || "0"
+    
+    return {
+      // 1 STX = 1,000,000 microSTX
+      balance: Number(microBalance) / 1_000_000,
+      locked: Number(res.data?.stx?.locked || 0) / 1_000_000
+    }
+  } catch (err) {
+    console.error(`[api] Failed to fetch account ${address}:`, err.message)
+    return { balance: 0, locked: 0 }
   }
 }
 
-export async function getTxsForAddress(address, limit=5){
-  const res = await axios.get(`${STACKS_API}/extended/v1/address/${address}/transactions?limit=${limit}`)
-  if(res.status !== 200) throw new Error('Failed to fetch txs')
-  return res.data.results || res.data || []
+/**
+ * Fetches recent transactions
+ */
+export async function getTxsForAddress(address, limit = 5) {
+  try {
+    const res = await axios.get(`${STACKS_API}/extended/v1/address/${address}/transactions?limit=${limit}`)
+    return res.data?.results || []
+  } catch (err) {
+    console.error(`[api] Failed to fetch txs for ${address}:`, err.message)
+    return []
+  }
 }
 
-export async function getPriceUSD(){
-  try{
-    const res = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=stacks&vs_currencies=usd')
-    return res.data?.stacks?.usd || 0
-  }catch(e){
-    console.error('price fetch error', e.message)
-    return 0
+/**
+ * Fetches STX price with a fail-safe
+ */
+export async function getPriceUSD() {
+  try {
+    const res = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=blockstack&vs_currencies=usd')
+    // Note: CoinGecko uses 'blockstack' as the ID for STX
+    return res.data?.blockstack?.usd || res.data?.stacks?.usd || 0
+  } catch (e) {
+    console.warn('[api] Price fetch failed, using fallback or 0')
+    return 0 
   }
 }
