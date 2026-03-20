@@ -10,21 +10,19 @@ export async function getAccountInfo(address) {
   try {
     // 1. Fetch Balances (STX + SIP-010 Tokens)
     const balRes = await axios.get(`${STACKS_API}/extended/v1/address/${address}/balances`)
-    
+
     // 2. Fetch first transaction to determine "Active Since" date
-    // We use limit=1 and order by 'burn_block_time' (ascending) if the API supports it,
-    // otherwise we get the very first result from the history.
     const txRes = await axios.get(`${STACKS_API}/extended/v1/address/${address}/transactions?limit=1`)
-    
+
     const microBalance = balRes.data?.stx?.balance || "0"
     const stxBalance = Number(microBalance) / 1_000_000
-    
+
     return {
       address,
       balance: stxBalance,
       locked: Number(balRes.data?.stx?.locked || 0) / 1_000_000,
       nonce: balRes.data?.stx?.nonce || 0,
-      // FEATURE: Token Auto-Discovery
+      // FEATURE: Token Auto-Discovery (SIP-010)
       tokens: balRes.data?.fungible_tokens || {},
       // FEATURE: Time Machine (First activity)
       firstActivity: txRes.data?.results?.[0]?.burn_block_time_iso || null,
@@ -51,23 +49,24 @@ export async function getTxsForAddress(address, limit = 5) {
 }
 
 /**
- * Fetches STX price with a 2026-safe fallback
+ * Fetches STX price with a 2026-safe fallback system
  */
 export async function getPriceUSD() {
   try {
-    // We check both CoinGecko and a secondary fallback if needed
+    // Primary: CoinGecko
     const res = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=blockstack&vs_currencies=usd')
     const price = res.data?.blockstack?.usd || 0
-    
-    if (price === 0) throw new Error('Price not found')
+
+    if (price === 0) throw new Error('CoinGecko returned zero')
     return price
   } catch (e) {
-    console.warn('[api] CoinGecko failed, attempting secondary API...')
+    console.warn('[api] CoinGecko failed, attempting Hiro Price API...')
     try {
-      // Secondary: Hiro Token Price API
+      // Secondary Fallback: Hiro API
       const hiroRes = await axios.get('https://api.hiro.so/metadata/v1/stx/price')
       return hiroRes.data?.price || 0
     } catch (err) {
+      console.error('[api] All price sources failed.')
       return 0
     }
   }
@@ -75,17 +74,48 @@ export async function getPriceUSD() {
 
 /**
  * FEATURE: Global Whale Watcher
- * Fetches the most recent high-value transactions on the network
+ * Scans the entire network for high-value STX transfers
  */
-export async function getGlobalWhaleFeed(limit = 10) {
+export async function getGlobalWhaleFeed(limit = 20) {
   try {
     const res = await axios.get(`${STACKS_API}/extended/v1/tx?limit=${limit}`)
-    // Filter transactions where STX amount is > 10,000
-    return res.data.results.filter(tx => {
-      const amount = Number(tx.stx_transfer?.amount || 0) / 1_000_000
-      return amount > 10000
-    })
+    
+    // Process and filter for transactions > 10,000 STX
+    return res.data.results
+      .filter(tx => {
+        const amount = Number(tx.stx_transfer?.amount || 0) / 1_000_000
+        return amount >= 10000 && tx.tx_status === 'success'
+      })
+      .map(tx => ({
+        id: tx.tx_id,
+        from: tx.sender_address,
+        to: tx.stx_transfer?.recipient,
+        amount: Number(tx.stx_transfer?.amount || 0) / 1_000_000,
+        timestamp: tx.burn_block_time_iso
+      }))
   } catch (err) {
+    console.error('[api] Global whale feed error:', err.message)
     return []
+  }
+}
+
+/**
+ * FEATURE: Performance Tracker (Historical Price Check)
+ * Estimates the price of STX on a specific date for P/L analysis
+ */
+export async function getHistoricalPrice(isoDate) {
+  try {
+    // CoinGecko historical endpoint
+    const date = new Date(isoDate)
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = date.getFullYear()
+    
+    const formattedDate = `${day}-${month}-${year}` // DD-MM-YYYY
+    const res = await axios.get(`https://api.coingecko.com/api/v3/coins/blockstack/history?date=${formattedDate}`)
+    
+    return res.data?.market_data?.current_price?.usd || null
+  } catch (e) {
+    return null
   }
 }
