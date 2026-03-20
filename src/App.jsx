@@ -1,32 +1,45 @@
-// src/App.jsx
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Portfolio from './components/Portfolio'
 import { getPriceUSD } from './lib/api'
 import { connectWallet, getUserData, signOut, getUserAddressSafe, openTransfer } from './lib/wallet'
 
 export default function App() {
-  const [addresses, setAddresses] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
-  })
+  const inputRef = useRef(null);
   const [price, setPrice] = useState(null)
   const [user, setUser] = useState(() => {
     try { return getUserData() } catch (e) { return null }
   })
+  
+  const [addresses, setAddresses] = useState(() => {
+    try { 
+      const saved = localStorage.getItem('stx_addresses');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) { return [] }
+  })
 
-  useEffect(() => {
-    async function loadPrice() { setPrice(await getPriceUSD()) }
-    loadPrice()
-  }, [])
-
+  // Sync addresses to localStorage
   useEffect(() => {
     localStorage.setItem('stx_addresses', JSON.stringify(addresses))
   }, [addresses])
 
+  // Fetch price & check for newly connected address
+  useEffect(() => {
+    async function init() {
+      const p = await getPriceUSD();
+      setPrice(p);
+
+      // Auto-add the connected address if it's missing (common after redirect)
+      const currentAddr = getUserAddressSafe();
+      if (currentAddr && !addresses.includes(currentAddr)) {
+        setAddresses(prev => [currentAddr, ...prev]);
+      }
+    }
+    init();
+  }, []);
+
   async function handleConnect() {
-    console.log('[app] handleConnect start')
     try {
       const u = await connectWallet()
-      console.log('[app] connectWallet returned:', u)
       setUser(u)
       const addr = getUserAddressSafe()
       if (addr && !addresses.includes(addr)) {
@@ -34,22 +47,20 @@ export default function App() {
       }
     } catch (err) {
       console.error('[app] connect error:', err)
-      alert('Wallet connection failed — check console and ensure a compatible wallet extension is installed and popups are allowed.')
+      alert('Connection failed. Please ensure your wallet is unlocked.')
     }
   }
 
-  function handleSignOut() {
-    try {
-      signOut()
-      setUser(null)
-    } catch (e) {
-      console.warn('signOut error', e)
+  function handleAddFromInput() {
+    const val = inputRef.current?.value?.trim();
+    if (val) {
+      addAddress(val);
+      inputRef.current.value = '';
     }
   }
 
   function addAddress(addr) {
-    if (!addr) return
-    if (addresses.includes(addr)) return alert('Already added')
+    if (addresses.includes(addr)) return alert('Address already in list');
     setAddresses(prev => [addr, ...prev])
   }
 
@@ -57,39 +68,21 @@ export default function App() {
     setAddresses(prev => prev.filter(a => a !== addr))
   }
 
-  function addMyAddress() {
-    const a = getUserAddressSafe()
-    if (!a) return alert('No connected address found')
-    addAddress(a)
-  }
-
-  async function sendFlow() {
-    const recipient = prompt('Recipient STX address:')
-    if (!recipient) return
-    const amount = prompt('Amount (STX):')
-    if (!amount) return
-    try {
-      await openTransfer({ recipient, amount, memo: 'Sent via STX Portfolio Tracker' })
-      alert('Transfer dialog opened in wallet.')
-    } catch (e) {
-      alert('Error opening transfer: ' + (e?.message || e))
-    }
-  }
-
   return (
     <div className="container">
       <header className="mb-6">
         <h1 className="text-3xl font-bold">STX Portfolio Tracker</h1>
-        <p className="small mt-1">Track STX addresses, view balances and recent txs. Wallet integration via Stacks Connect.</p>
+        <p className="small mt-1 text-slate-400">Track balances and transactions via Stacks Connect.</p>
 
-        <div className="mt-4 flex gap-3">
+        <div className="mt-4 flex flex-wrap gap-3">
           {!user ? (
             <button className="btn" onClick={handleConnect}>Connect Wallet</button>
           ) : (
             <>
-              <div className="card small">Connected: <code className="addr ml-2">{getUserAddressSafe()}</code></div>
-              <button className="btn-ghost" onClick={handleSignOut}>Sign Out</button>
-              <button className="btn" onClick={addMyAddress}>Add my address</button>
+              <div className="card small bg-slate-800 p-2 rounded">
+                Connected: <code className="text-orange-400">{getUserAddressSafe()}</code>
+              </div>
+              <button className="btn-ghost" onClick={() => { signOut(); setUser(null); }}>Sign Out</button>
               <button className="btn" onClick={sendFlow}>Send STX</button>
             </>
           )}
@@ -97,21 +90,24 @@ export default function App() {
       </header>
 
       <main>
-        <div className="mb-4">
+        <div className="mb-6">
           <div className="flex gap-2">
-            <input id="newaddr" placeholder="Enter STX address to track" className="p-2 rounded-md bg-slate-800 border border-slate-700 flex-1" />
-            <button className="btn" onClick={() => {
-              const v = document.getElementById('newaddr').value.trim()
-              if (v) { addAddress(v); document.getElementById('newaddr').value = '' }
-            }}>Add</button>
+            <input 
+              ref={inputRef}
+              placeholder="Enter STX address (SP...)" 
+              className="p-2 rounded-md bg-slate-800 border border-slate-700 flex-1 outline-none focus:border-orange-500" 
+            />
+            <button className="btn" onClick={handleAddFromInput}>Add to Watchlist</button>
           </div>
-          <div className="mt-2 small">STX price: {price ? '$' + price.toFixed(4) : 'Loading...'}</div>
+          {price && (
+            <div className="mt-2 text-sm font-medium text-green-400">
+              STX Price: ${price.toLocaleString(undefined, { minimumFractionDigits: 4 })}
+            </div>
+          )}
         </div>
 
         <Portfolio addresses={addresses} removeAddress={removeAddress} price={price} />
       </main>
-
-      <footer className="mt-8 small">Built for demo. Data from Stacks API & CoinGecko. No private keys requested.</footer>
     </div>
   )
 }
