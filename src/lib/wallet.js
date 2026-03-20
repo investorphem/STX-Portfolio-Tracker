@@ -1,24 +1,22 @@
 import { connect, disconnect, isConnected, getLocalStorage, request } from '@stacks/connect';
 import { makeStandardSTXPostCondition, FungibleConditionCode } from '@stacks/transactions';
 
-/**
- * Returns user data if signed in. 
- * In v7+, connect() persists data to localStorage automatically.
- */
+// v8+ uses getLocalStorage() instead of a manual UserSession
 export function getUserData() {
   return isConnected() ? getLocalStorage() : null;
 }
 
 export async function connectWallet() {
   try {
-    // The modern way: returns a promise that resolves after the user selects an account
+    // connect() is the v8 standard. It triggers the wallet picker 
+    // and returns the connected addresses/profile.
     const response = await connect({
       appDetails: {
         name: 'STX Portfolio Tracker',
         icon: window.location.origin + '/icon.png',
       },
     });
-    return response; 
+    return response;
   } catch (err) {
     console.error('[wallet] Connect failed:', err);
     throw err;
@@ -27,12 +25,12 @@ export async function connectWallet() {
 
 export function getUserAddressSafe() {
   const session = getLocalStorage();
-  // New structure: addresses are grouped by type (stx, btc)
+  // v8 returns addresses in an object: { stx: [...], btc: [...] }
   return session?.addresses?.stx?.[0]?.address || null;
 }
 
 export function signOut() {
-  disconnect(); // Clears internal state and localStorage
+  disconnect(); // This clears the internal v8 session automatically
 }
 
 export async function openTransfer({ recipient, amount, memo }) {
@@ -41,7 +39,7 @@ export async function openTransfer({ recipient, amount, memo }) {
 
   const microStx = BigInt(Math.round(Number(amount) * 1_000_000));
 
-  // The 'stx_transferStx' RPC method is the standard for 2026
+  // In v8, we use 'stx_transferStx' via the request() method
   return await request('stx_transferStx', {
     recipient,
     amount: microStx.toString(),
