@@ -1,50 +1,57 @@
-// src/lib/wallet.js
-import { AppConfig, showConnect, UserSession, openSTXTransfer } from '@stacks/connect';
+import { connect, disconnect, isConnected, getLocalStorage, request } from '@stacks/connect';
 import { makeStandardSTXPostCondition, FungibleConditionCode } from '@stacks/transactions';
 
-const appConfig = new AppConfig(['store_write', 'publish_data']);
-const userSession = new UserSession({ appConfig });
-
-function safeLoadUser() {
-  try { return userSession.loadUserData(); } catch(e) { console.warn('loadUserData failed', e); return null; }
+/**
+ * Returns user data if signed in. 
+ * In v7+, connect() persists data to localStorage automatically.
+ */
+export function getUserData() {
+  return isConnected() ? getLocalStorage() : null;
 }
 
-export function getUserData() { return safeLoadUser(); }
-
 export async function connectWallet() {
-  if (typeof showConnect !== 'function') {
-    throw new Error('showConnect is not a function — check @stacks/connect version');
+  try {
+    // The modern way: returns a promise that resolves after the user selects an account
+    const response = await connect({
+      appDetails: {
+        name: 'STX Portfolio Tracker',
+        icon: window.location.origin + '/icon.png',
+      },
+    });
+    return response; 
+  } catch (err) {
+    console.error('[wallet] Connect failed:', err);
+    throw err;
   }
-  return new Promise((resolve, reject) => {
-    try {
-      showConnect({
-        appDetails: { name: 'STX Portfolio Tracker', icon: window.location.origin + '/icon.png' },
-        onFinish: () => resolve(safeLoadUser()),
-        onCancel: () => reject(new Error('User cancelled connect')),
-        onSignOut: () => resolve(null)
-      });
-    } catch (err) {
-      console.error('[wallet] showConnect threw', err);
-      reject(err);
-    }
-  });
 }
 
 export function getUserAddressSafe() {
-  const u = safeLoadUser();
-  return (u?.profile?.stxAddress?.mainnet) || (u?.profile?.stxAddress) || (u?.profile?.stxAddress?.address) || null;
+  const session = getLocalStorage();
+  // New structure: addresses are grouped by type (stx, btc)
+  return session?.addresses?.stx?.[0]?.address || null;
 }
 
 export function signOut() {
-  try { userSession.signUserOut(window.location.origin) } catch(e) { console.warn('signOut error', e); }
+  disconnect(); // Clears internal state and localStorage
 }
 
 export async function openTransfer({ recipient, amount, memo }) {
-  const amt = Number(amount);
-  if (Number.isNaN(amt) || amt <= 0) throw new Error('Invalid amount');
-  const from = getUserAddressSafe();
-  const postConditions = from ? [
-    makeStandardSTXPostCondition(from, FungibleConditionCode.LessEqual, BigInt(Math.round(amt * 1_000_000)))
-  ] : [];
-  return openSTXTransfer({ recipient, amount: String(amt), memo: memo || '', network: undefined, postConditions });
+  const stxAddress = getUserAddressSafe();
+  if (!stxAddress) throw new Error('Wallet not connected');
+
+  const microStx = BigInt(Math.round(Number(amount) * 1_000_000));
+
+  // The 'stx_transferStx' RPC method is the standard for 2026
+  return await request('stx_transferStx', {
+    recipient,
+    amount: microStx.toString(),
+    memo: memo || '',
+    postConditions: [
+      makeStandardSTXPostCondition(
+        stxAddress,
+        FungibleConditionCode.LessEqual,
+        microStx
+      )
+    ]
+  });
 }
