@@ -4,21 +4,22 @@ import { getPriceUSD } from './lib/api'
 import { connectWallet, getUserData, signOut, getUserAddressSafe, openTransfer } from './lib/wallet'
 
 export default function App() {
+  const [price, setPrice] = useState(null)
+  const [user, setUser] = useState(getUserData())
   const [addresses, setAddresses] = useState(() => {
     try { return JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
   })
-  const [price, setPrice] = useState(null)
-  const [user, setUser] = useState(getUserData())
 
   useEffect(() => {
-    async function loadPrice() { setPrice(await getPriceUSD()) }
-    loadPrice()
-    
-    // Sync state if user is already logged in
-    const activeAddr = getUserAddressSafe();
-    if (activeAddr && !addresses.includes(activeAddr)) {
-      setAddresses(prev => [activeAddr, ...prev]);
+    async function init() {
+      setPrice(await getPriceUSD())
+      // Auto-add the currently connected wallet to the watchlist
+      const current = getUserAddressSafe()
+      if (current && !addresses.includes(current)) {
+        setAddresses(prev => [current, ...prev])
+      }
     }
+    init()
   }, [])
 
   useEffect(() => {
@@ -27,66 +28,66 @@ export default function App() {
 
   async function handleConnect() {
     try {
-      const res = await connectWallet();
-      setUser(res);
-      const addr = getUserAddressSafe();
+      const userData = await connectWallet()
+      setUser(userData)
+      const addr = getUserAddressSafe()
       if (addr && !addresses.includes(addr)) {
-        setAddresses(prev => [addr, ...prev]);
+        setAddresses(prev => [addr, ...prev])
       }
     } catch (err) {
-      console.error('Connection failed:', err);
+      console.warn('User cancelled or failed to connect')
     }
   }
 
   function handleSignOut() {
-    signOut();
-    setUser(null);
+    signOut()
+    setUser(null)
   }
 
-  // ... (Keep addAddress, removeAddress, addMyAddress, sendFlow as they were)
-
   return (
-    <div className="container p-6 max-w-4xl mx-auto">
+    <div className="container p-6 mx-auto max-w-4xl">
       <header className="mb-8 border-b border-slate-800 pb-6">
-        <h1 className="text-4xl font-black text-orange-500">STX Tracker</h1>
-        <div className="mt-4 flex flex-wrap gap-3 items-center">
+        <h1 className="text-3xl font-bold text-orange-500">STX Portfolio</h1>
+        <div className="flex gap-3 mt-4">
           {!user ? (
-            <button className="bg-orange-600 hover:bg-orange-700 px-6 py-2 rounded-lg font-bold transition" onClick={handleConnect}>
+            <button className="bg-orange-600 px-5 py-2 rounded-lg font-bold" onClick={handleConnect}>
               Connect Wallet
             </button>
           ) : (
             <>
-              <div className="bg-slate-800 px-4 py-2 rounded text-sm font-mono border border-slate-700">
+              <div className="bg-slate-800 p-2 rounded text-xs font-mono border border-slate-700">
                 {getUserAddressSafe()}
               </div>
-              <button className="text-slate-400 hover:text-white underline text-sm" onClick={handleSignOut}>Sign Out</button>
-              <button className="bg-slate-700 px-4 py-2 rounded text-sm" onClick={() => {
-                const a = getUserAddressSafe();
-                if (a && !addresses.includes(a)) setAddresses(prev => [a, ...prev]);
-              }}>Add My Address</button>
-              <button className="bg-orange-600 px-4 py-2 rounded text-sm font-bold" onClick={() => openTransfer({ recipient: '', amount: '1' })}>Send STX</button>
+              <button className="text-sm underline text-slate-400" onClick={handleSignOut}>Sign Out</button>
+              <button className="bg-orange-600 px-4 py-2 rounded-lg text-sm font-bold" onClick={() => openTransfer({ recipient: '', amount: '1' })}>
+                Send
+              </button>
             </>
           )}
         </div>
       </header>
 
       <main>
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-2 mb-4">
           <input 
-            id="newaddr" 
-            placeholder="SP..." 
-            className="bg-slate-900 border border-slate-700 p-3 rounded flex-1 outline-none focus:ring-2 ring-orange-500" 
+            id="addrInput" 
+            placeholder="SP... address" 
+            className="flex-1 bg-slate-900 border border-slate-700 p-3 rounded" 
           />
-          <button className="bg-slate-100 text-black px-6 py-2 rounded font-bold" onClick={() => {
-            const v = document.getElementById('newaddr').value.trim();
-            if (v) { 
-              setAddresses(prev => Array.from(new Set([v, ...prev]))); 
-              document.getElementById('newaddr').value = '';
+          <button className="bg-white text-black px-6 py-2 rounded font-bold" onClick={() => {
+            const val = document.getElementById('addrInput').value.trim()
+            if (val) {
+              setAddresses(prev => Array.from(new Set([val, ...prev])))
+              document.getElementById('addrInput').value = ''
             }
-          }}>Track Address</button>
+          }}>Add</button>
+        </div>
+        
+        <div className="text-sm text-green-400 mb-6">
+          STX Price: {price ? `$${price.toFixed(4)}` : 'Loading...'}
         </div>
 
-        <Portfolio addresses={addresses} removeAddress={(a) => setAddresses(prev => prev.filter(x => x !== a))} price={price} />
+        <Portfolio addresses={addresses} price={price} removeAddress={(a) => setAddresses(prev => prev.filter(x => x !== a))} />
       </main>
     </div>
   )
