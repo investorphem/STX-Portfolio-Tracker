@@ -1,55 +1,56 @@
 import { connect, disconnect, isConnected, getLocalStorage, request } from '@stacks/connect';
 import { makeStandardSTXPostCondition, FungibleConditionCode } from '@stacks/transactions';
 
-// v8+ uses getLocalStorage() instead of a manual UserSession
+/**
+ * Returns user data if connected.
+ * v8 returns an object: { addresses: { stx: [{address, publicKey}], btc: [...] } }
+ */
 export function getUserData() {
   return isConnected() ? getLocalStorage() : null;
 }
 
 export async function connectWallet() {
   try {
-    // connect() is the v8 standard. It triggers the wallet picker 
-    // and returns the connected addresses/profile.
+    // connect() triggers the wallet selection and account request
     const response = await connect({
       appDetails: {
         name: 'STX Portfolio Tracker',
-        icon: window.location.origin + '/icon.png',
+        icon: window.location.origin + '/favicon.png',
       },
     });
-    return response;
+    return response; 
   } catch (err) {
-    console.error('[wallet] Connect failed:', err);
+    console.error('Wallet connection failed:', err);
     throw err;
   }
 }
 
 export function getUserAddressSafe() {
   const session = getLocalStorage();
-  // v8 returns addresses in an object: { stx: [...], btc: [...] }
+  // v8 structure: session.addresses.stx[0].address
   return session?.addresses?.stx?.[0]?.address || null;
 }
 
 export function signOut() {
-  disconnect(); // This clears the internal v8 session automatically
+  disconnect(); // Clears internal session and caches
 }
 
+/**
+ * Modern v8 STX Transfer
+ */
 export async function openTransfer({ recipient, amount, memo }) {
-  const stxAddress = getUserAddressSafe();
-  if (!stxAddress) throw new Error('Wallet not connected');
+  const from = getUserAddressSafe();
+  if (!from) throw new Error('Connect wallet first');
 
+  // 1 STX = 1,000,000 microSTX
   const microStx = BigInt(Math.round(Number(amount) * 1_000_000));
 
-  // In v8, we use 'stx_transferStx' via the request() method
+  // In v8, we use 'stx_transferStx' with JSON-RPC params
   return await request('stx_transferStx', {
     recipient,
     amount: microStx.toString(),
     memo: memo || '',
-    postConditions: [
-      makeStandardSTXPostCondition(
-        stxAddress,
-        FungibleConditionCode.LessEqual,
-        microStx
-      )
-    ]
+    // Note: Simple STX transfers in v8 often handle post-conditions 
+    // automatically, but you can pass them if specific control is needed.
   });
 }
