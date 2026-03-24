@@ -3,6 +3,28 @@ import Portfolio from './components/Portfolio'
 import { getPriceUSD, getGlobalWhaleFeed } from './lib/api'
 import { connectWallet, getUserData, signOut, getUserAddressSafe } from './lib/wallet'
 
+/**
+ * LOGO COMPONENT: Concept 1 "The Bitcoin Layer"
+ * Scalable SVG representing Stacks (S) as Bitcoin's Layer 2.
+ */
+const Logo = () => (
+  <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
+    {/* Background Square with rounded edges */}
+    <rect width="100" height="100" rx="22" fill="#0f172a" />
+    {/* The "S" / "2" Negative Space Geometry */}
+    <path 
+      d="M25 30C25 27.2386 27.2386 25 30 25H70C72.7614 25 35 45 35 45V55C35 55 75 35 75 65C75 72.7614 72.7614 75 70 75H30C27.2386 75 25 72.7614 25 70V30Z" 
+      fill="#f97316" 
+    />
+    <path 
+      d="M45 42L65 58" 
+      stroke="#0f172a" 
+      strokeWidth="8" 
+      strokeLinecap="round"
+    />
+  </svg>
+)
+
 export default function App() {
   const [user, setUser] = useState(getUserData())
   const [price, setPrice] = useState(null)
@@ -13,15 +35,12 @@ export default function App() {
 
   useEffect(() => {
     async function init() {
-      // 1. Initial Price
       const currentPrice = await getPriceUSD()
       setPrice(currentPrice)
 
-      // 2. Initial Whale Check
       const whales = await getGlobalWhaleFeed(1)
       if (whales.length > 0) setWhaleAlert(whales[0])
 
-      // 3. Sync connected wallet
       const current = getUserAddressSafe()
       if (current && !addresses.includes(current)) {
         setAddresses(prev => [...new Set([current, ...prev])])
@@ -29,7 +48,6 @@ export default function App() {
     }
     init()
 
-    // Real-time Pulse: Refresh price and whales every 30s
     const pulse = setInterval(async () => {
       setPrice(await getPriceUSD())
       const feed = await getGlobalWhaleFeed(1)
@@ -85,13 +103,17 @@ export default function App() {
 
       <div className="container mx-auto p-6 max-w-4xl">
         <header className="flex justify-between items-center mb-12 py-6">
-          <div>
-            <h1 className="text-4xl font-black text-white tracking-tighter">
-              STX<span className="text-orange-500">TRACKER</span>
-            </h1>
-            <p className="text-slate-500 font-mono text-xs uppercase tracking-widest">Web3 Intel Hub v8.1</p>
+          {/* HEADER LOGO + TITLE AREA */}
+          <div className="flex items-center gap-4">
+            <Logo />
+            <div>
+              <h1 className="text-4xl font-black text-white tracking-tighter leading-none">
+                STX<span className="text-orange-500">TRACKER</span>
+              </h1>
+              <p className="text-slate-500 font-mono text-[10px] uppercase tracking-[0.3em] mt-1">Web3 Intel Hub v8.1</p>
+            </div>
           </div>
-          
+
           <div className="flex items-center gap-4">
             {!user ? (
               <button 
