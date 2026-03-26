@@ -1,4 +1,4 @@
-const API = 'https://stacks-node-api.mainnet.stacks.co';
+const API = 'https://api.mainnet.hiro.so';
 const syncInput = document.getElementById('syncInput');
 const syncBtn = document.getElementById('syncBtn');
 const watchlistDiv = document.getElementById('watchlist');
@@ -13,9 +13,9 @@ syncBtn.addEventListener('click', () => {
     const pastedData = syncInput.value.trim();
     // Parse the JSON array copied from the website
     const addresses = JSON.parse(pastedData); 
-    
+
     if (!Array.isArray(addresses)) throw new Error("Invalid format");
-    
+
     // Save it to Chrome's local storage
     chrome.storage.local.set({ stx_watchlist: addresses }, () => {
       syncInput.value = ''; // Clear input
@@ -31,7 +31,7 @@ syncBtn.addEventListener('click', () => {
 function loadWatchlist() {
   chrome.storage.local.get(['stx_watchlist'], async (result) => {
     const addresses = result.stx_watchlist || [];
-    
+
     if (addresses.length === 0) {
       watchlistDiv.innerHTML = '';
       statusDiv.textContent = 'No addresses synced yet. Go to your dashboard to copy them.';
@@ -45,13 +45,13 @@ function loadWatchlist() {
       try {
         const res = await fetch(`${API}/v2/accounts/${addr}`);
         if (!res.ok) throw new Error('Fetch failed');
-        
+
         const data = await res.json();
         const bal = Number(data.balance || 0) / 1_000_000;
-        
+
         // Truncate address so it fits in the small popup (SP123...4567)
         const shortAddr = `${addr.slice(0, 5)}...${addr.slice(-4)}`;
-        
+
         // Add the wallet card to the UI
         watchlistDiv.innerHTML += `
           <div class="wallet-card">
