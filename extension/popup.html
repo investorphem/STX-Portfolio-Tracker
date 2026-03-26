@@ -1,22 +1,34 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>STX Quick</title>
-<style>
-body{ font-family: Arial, sans-serif; width:340px; padding:12px; background:#071428; color:#e6edf3 }
-input{ width:100%; padding:8px; border-radius:6px; border:1px solid #23303a; margin-bottom:8px; background:#041428; color:#fff }
-button{ padding:8px 10px; border-radius:6px; border:0; background:#0ea5a1; color:#012; font-weight:600 }
-.bal{ margin-top:8px; font-family:monospace }
-.small{ color:#9aa6b2; font-size:13px }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>STX Quick</title>
+  <style>
+    body { font-family: 'Inter', Arial, sans-serif; width: 320px; padding: 16px; background: #020617; color: #f8fafc; margin: 0; }
+    h3 { margin-top: 0; color: #f8fafc; font-weight: 900; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
+    .brand { color: #f97316; }
+    input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #1e293b; background: #0f172a; color: #fff; box-sizing: border-box; font-size: 12px; margin-bottom: 8px; outline: none; font-family: monospace; }
+    input:focus { border-color: #f97316; }
+    button { width: 100%; padding: 10px; border-radius: 8px; border: 0; background: #f97316; color: #fff; font-weight: bold; cursor: pointer; margin-bottom: 16px; transition: 0.2s; }
+    button:hover { background: #ea580c; }
+    
+    .wallet-card { background: #0f172a; border: 1px solid #1e293b; padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .addr { font-family: monospace; color: #94a3b8; font-size: 11px; }
+    .bal { font-weight: bold; color: #fff; font-size: 14px; }
+    .stx-label { color: #f97316; font-size: 10px; font-weight: 900; margin-left: 2px; }
+    .small { color: #64748b; font-size: 11px; text-align: center; margin-top: 10px; }
+  </style>
 </head>
 <body>
-<h3>STX Quick</h3>
-<input id="addr" placeholder="Enter STX address" />
-<button id="go">Get balance</button>
-<div id="out" class="small"></div>
-<script src="popup.js"></script>
+  <h3>STX <span class="brand">TRACKER</span></h3>
+  
+  <input id="syncInput" placeholder="Paste data from Web Dashboard here..." />
+  <button id="syncBtn">Sync Watchlist</button>
+  
+  <div id="watchlist"></div>
+  <div id="status" class="small">Waiting for sync...</div>
+  
+  <script src="popup.js"></script>
 </body>
 </html>
