@@ -2,11 +2,16 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { getAccountInfo, getTxsForAddress } from '../lib/api'
 
-const COLORS = ['#f97316', '#334155', '#64748b', '#fbbf24', '#475569'];
+// We use raw hex codes to ensure Recharts can read them properly
+const COLORS = ['#f97316', '#3b82f6', '#10b981', '#8b5cf6', '#ef4444', '#f59e0b', '#06b6d4'];
 
 export default function Portfolio({ addresses, removeAddress, price }) {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
+
+  // --- THE BULLETPROOF COLOR FUNCTION ---
+  // This guarantees the 1st wallet is ALWAYS Orange, 2nd is ALWAYS Blue, etc.
+  const getWalletColor = (index) => COLORS[index % COLORS.length];
 
   useEffect(() => {
     let cancelled = false
@@ -62,14 +67,14 @@ export default function Portfolio({ addresses, removeAddress, price }) {
     document.body.removeChild(link);
   };
 
-  // --- THE FIX: Property must be named 'fill' for Recharts to read it natively ---
+  // Build the chart data using the strict color function
   const chartData = useMemo(() => {
     return addresses.map((addr, idx) => {
       const d = data[addr] || {};
       return {
         name: addr.slice(0, 5) + '...',
         value: d.balance || 0,
-        fill: COLORS[idx % COLORS.length] // This permanently locks the color to the wallet's position
+        colorHex: getWalletColor(idx) // Save the strict color string
       }
     }).filter(d => d.value > 0) 
   }, [data, addresses])
@@ -103,9 +108,9 @@ export default function Portfolio({ addresses, removeAddress, price }) {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={chartData} innerRadius={50} outerRadius={70} paddingAngle={10} dataKey="value" stroke="none">
-                  {/* --- THE FIX: Explicitly mapping the 'fill' property to the Cell --- */}
+                  {/* --- Injecting the strict colorHex directly into the Cell --- */}
                   {chartData.map((entry, i) => (
-                    <Cell key={`cell-${i}`} fill={entry.fill} />
+                    <Cell key={`cell-${i}`} fill={entry.colorHex} />
                   ))}
                 </Pie>
                 <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: 'none', borderRadius: '12px', fontSize: '10px', color: '#fff' }} itemStyle={{ color: '#fff' }} />
@@ -123,8 +128,8 @@ export default function Portfolio({ addresses, removeAddress, price }) {
               <div className="p-6 border-b border-slate-800 flex justify-between items-start bg-gradient-to-r from-slate-900 to-slate-950">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    {/* The list color is locked to the exact same formula as the pie chart */}
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
+                    {/* --- Using the exact same function to color the dot --- */}
+                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: getWalletColor(idx) }} />
                     <code className="text-xs text-slate-400 font-mono tracking-tighter">{addr}</code>
                   </div>
                   <div className="flex gap-2">
