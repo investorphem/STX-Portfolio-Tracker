@@ -17,13 +17,32 @@ export async function getAccountInfo(address) {
     const microBalance = balRes.data?.stx?.balance || "0"
     const stxBalance = Number(microBalance) / 1_000_000
 
+    // FEATURE: Token Auto-Discovery (SIP-010 Parser)
+    const rawTokens = balRes.data?.fungible_tokens || {}
+    const parsedTokens = Object.entries(rawTokens).map(([key, data]) => {
+      // Extract the token name from the contract key (e.g., "...::usdc" -> "usdc")
+      const rawName = key.split('::')[1] || 'UNKNOWN'
+      const symbol = rawName.toUpperCase()
+      
+      // USDC and most Stacks tokens use 6 decimals.
+      // If you add tokens with different decimals later, you can adjust this logic.
+      const decimals = 6 
+      const actualBalance = Number(data.balance) / (10 ** decimals)
+
+      return {
+        symbol,
+        balance: actualBalance,
+        contractId: key.split('::')[0]
+      }
+    }).filter(t => t.balance > 0) // Hide tokens with a 0 balance
+
     return {
       address,
       balance: stxBalance,
       locked: Number(balRes.data?.stx?.locked || 0) / 1_000_000,
       nonce: balRes.data?.stx?.nonce || 0,
-      // FEATURE: Token Auto-Discovery (SIP-010)
-      tokens: balRes.data?.fungible_tokens || {},
+      // Pass the cleaned array to the frontend
+      tokens: parsedTokens,
       // FEATURE: Time Machine (First activity)
       firstActivity: txRes.data?.results?.[0]?.burn_block_time_iso || null,
       // FEATURE: Whale Flag (True if > 50,000 STX)
@@ -31,7 +50,8 @@ export async function getAccountInfo(address) {
     }
   } catch (err) {
     console.error(`[api] Deep fetch failed for ${address}:`, err.message)
-    return { balance: 0, locked: 0, tokens: {}, isWhale: false }
+    // Return an empty array for tokens on failure to prevent UI crashes
+    return { balance: 0, locked: 0, tokens: [], isWhale: false } 
   }
 }
 
@@ -79,7 +99,7 @@ export async function getPriceUSD() {
 export async function getGlobalWhaleFeed(limit = 20) {
   try {
     const res = await axios.get(`${STACKS_API}/extended/v1/tx?limit=${limit}`)
-    
+
     // Process and filter for transactions > 10,000 STX
     return res.data.results
       .filter(tx => {
@@ -110,10 +130,10 @@ export async function getHistoricalPrice(isoDate) {
     const day = String(date.getDate()).padStart(2, '0')
     const month = String(date.getMonth() + 1).padStart(2, '0')
     const year = date.getFullYear()
-    
+
     const formattedDate = `${day}-${month}-${year}` // DD-MM-YYYY
     const res = await axios.get(`https://api.coingecko.com/api/v3/coins/blockstack/history?date=${formattedDate}`)
-    
+
     return res.data?.market_data?.current_price?.usd || null
   } catch (e) {
     return null
