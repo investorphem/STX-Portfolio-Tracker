@@ -34,14 +34,12 @@ export default function Portfolio({ addresses, removeAddress, price }) {
     return () => { cancelled = true; clearInterval(interval); }
   }, [addresses])
 
-  // --- FEATURE: CSV EXPORT LOGIC ---
   const exportToCSV = () => {
     const rows = [
       ["Address", "STX Balance", "USD Value", "First Active", "Whale Status"]
     ];
 
     Object.values(data).forEach(d => {
-      // Added safety checks (|| 0) to prevent crashes on empty wallets
       const bal = d.balance || 0;
       rows.push([
         d.addr,
@@ -64,12 +62,17 @@ export default function Portfolio({ addresses, removeAddress, price }) {
     document.body.removeChild(link);
   };
 
+  // --- THE FIX: Bind the color from the main addresses array before filtering ---
   const chartData = useMemo(() => {
-    return Object.values(data).map(d => ({
-      name: d.addr.slice(0, 5) + '...',
-      value: d.balance || 0
-    })).filter(d => d.value > 0)
-  }, [data])
+    return addresses.map((addr, idx) => {
+      const d = data[addr] || {};
+      return {
+        name: addr.slice(0, 5) + '...',
+        value: d.balance || 0,
+        color: COLORS[idx % COLORS.length] // Lock the color to the index here
+      }
+    }).filter(d => d.value > 0) // Then filter out the zero balances
+  }, [data, addresses])
 
   const totalStx = chartData.reduce((sum, d) => sum + d.value, 0)
 
@@ -100,7 +103,8 @@ export default function Portfolio({ addresses, removeAddress, price }) {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={chartData} innerRadius={50} outerRadius={70} paddingAngle={10} dataKey="value" stroke="none">
-                  {chartData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                  {/* --- THE FIX: Use the locked color from the entry --- */}
+                  {chartData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
                 </Pie>
                 <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: 'none', borderRadius: '12px', fontSize: '10px', color: '#fff' }} itemStyle={{ color: '#fff' }} />
               </PieChart>
@@ -114,10 +118,10 @@ export default function Portfolio({ addresses, removeAddress, price }) {
           const d = data[addr]
           return (
             <div key={addr} className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl transition-all hover:border-slate-700">
-              {/* Header */}
               <div className="p-6 border-b border-slate-800 flex justify-between items-start bg-gradient-to-r from-slate-900 to-slate-950">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
+                    {/* The color here now perfectly matches entry.color in the pie chart */}
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
                     <code className="text-xs text-slate-400 font-mono tracking-tighter">{addr}</code>
                   </div>
@@ -134,10 +138,7 @@ export default function Portfolio({ addresses, removeAddress, price }) {
                 </div>
               </div>
 
-              {/* Body */}
               <div className="grid grid-cols-1 md:grid-cols-2 divide-x divide-slate-800">
-                
-                {/* --- THE FIX: SIP-010 INVENTORY --- */}
                 <div className="p-6">
                     <h5 className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-4">SIP-010 Inventory</h5>
                     <div className="grid grid-cols-2 gap-2">
