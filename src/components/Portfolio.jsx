@@ -20,7 +20,7 @@ export default function Portfolio({ addresses, removeAddress, price }) {
             const txs = await getTxsForAddress(addr, 10)
             return { addr, ...info, txs }
           } catch (e) {
-            return { addr, balance: 0, tokens: {}, txs: [], error: true }
+            return { addr, balance: 0, tokens: [], txs: [], error: true }
           }
         })
       )
@@ -41,10 +41,12 @@ export default function Portfolio({ addresses, removeAddress, price }) {
     ];
 
     Object.values(data).forEach(d => {
+      // Added safety checks (|| 0) to prevent crashes on empty wallets
+      const bal = d.balance || 0;
       rows.push([
         d.addr,
-        d.balance.toFixed(4),
-        (d.balance * price).toFixed(2),
+        bal.toFixed(4),
+        (bal * (price || 0)).toFixed(2),
         d.firstActivity || "N/A",
         d.isWhale ? "YES" : "NO"
       ]);
@@ -90,23 +92,23 @@ export default function Portfolio({ addresses, removeAddress, price }) {
             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-2">Total Net Worth</p>
             <h2 className="text-4xl font-black text-white">{totalStx.toLocaleString()} <span className="text-xl text-orange-500 font-light italic">STX</span></h2>
             <p className="text-2xl font-bold text-slate-400 mt-1">
-                ${(totalStx * price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                ${(totalStx * (price || 0)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
         </div>
-        
+
         <div className="lg:col-span-2 bg-slate-900 border border-slate-800 p-4 rounded-3xl h-48 shadow-2xl">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={chartData} innerRadius={50} outerRadius={70} paddingAngle={10} dataKey="value" stroke="none">
                   {chartData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                 </Pie>
-                <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: 'none', borderRadius: '12px', fontSize: '10px' }} />
+                <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: 'none', borderRadius: '12px', fontSize: '10px', color: '#fff' }} itemStyle={{ color: '#fff' }} />
               </PieChart>
             </ResponsiveContainer>
         </div>
       </div>
 
-      {/* 2. DETAILED ADDRESS CARDS (KEEPING EXISTING GRID LOGIC) */}
+      {/* 2. DETAILED ADDRESS CARDS */}
       <div className="grid grid-cols-1 gap-8">
         {addresses.map((addr, idx) => {
           const d = data[addr]
@@ -134,14 +136,18 @@ export default function Portfolio({ addresses, removeAddress, price }) {
 
               {/* Body */}
               <div className="grid grid-cols-1 md:grid-cols-2 divide-x divide-slate-800">
+                
+                {/* --- THE FIX: SIP-010 INVENTORY --- */}
                 <div className="p-6">
                     <h5 className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-4">SIP-010 Inventory</h5>
                     <div className="grid grid-cols-2 gap-2">
-                        {d?.tokens && Object.keys(d.tokens).length > 0 ? (
-                            Object.entries(d.tokens).slice(0, 4).map(([id, token]) => (
-                                <div key={id} className="bg-slate-950 p-2 rounded-xl border border-slate-800 flex flex-col">
-                                    <span className="text-[10px] font-bold text-white italic truncate">{id.split('::')[1]}</span>
-                                    <span className="text-xs font-mono text-orange-400">{(Number(token.balance) / 10**8).toLocaleString()}</span>
+                        {d?.tokens && d.tokens.length > 0 ? (
+                            d.tokens.slice(0, 4).map((token, i) => (
+                                <div key={i} className="bg-slate-950 p-2 rounded-xl border border-slate-800 flex flex-col">
+                                    <span className="text-[10px] font-bold text-white italic truncate">{token.symbol}</span>
+                                    <span className="text-xs font-mono text-orange-400">
+                                      {token.balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                    </span>
                                 </div>
                             ))
                         ) : <p className="text-[10px] text-slate-700">No secondary assets detected.</p>}
