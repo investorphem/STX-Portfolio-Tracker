@@ -9,8 +9,22 @@ export default function Portfolio({ addresses, removeAddress, price }) {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
 
+  // --- FEATURE: PERSISTENT WALLET NAMES ---
+  const [walletNames, setWalletNames] = useState(() => {
+    // Load saved names from localStorage on initial render
+    const saved = localStorage.getItem('stx_wallet_names');
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [editingName, setEditingName] = useState(null); 
+
+  const saveWalletName = (addr, newName) => {
+    const updatedNames = { ...walletNames, [addr]: newName };
+    setWalletNames(updatedNames);
+    localStorage.setItem('stx_wallet_names', JSON.stringify(updatedNames)); 
+    setEditingName(null); 
+  };
+
   // --- THE BULLETPROOF COLOR FUNCTION ---
-  // This guarantees the 1st wallet is ALWAYS Orange, 2nd is ALWAYS Blue, etc.
   const getWalletColor = (index) => COLORS[index % COLORS.length];
 
   useEffect(() => {
@@ -41,12 +55,14 @@ export default function Portfolio({ addresses, removeAddress, price }) {
 
   const exportToCSV = () => {
     const rows = [
-      ["Address", "STX Balance", "USD Value", "First Active", "Whale Status"]
+      ["Wallet Name", "Address", "STX Balance", "USD Value", "First Active", "Whale Status"]
     ];
 
     Object.values(data).forEach(d => {
       const bal = d.balance || 0;
+      const customName = walletNames[d.addr] || "Unnamed Wallet";
       rows.push([
+        customName,
         d.addr,
         bal.toFixed(4),
         (bal * (price || 0)).toFixed(2),
@@ -67,17 +83,18 @@ export default function Portfolio({ addresses, removeAddress, price }) {
     document.body.removeChild(link);
   };
 
-  // Build the chart data using the strict color function
+  // Build the chart data using the strict color function and custom names
   const chartData = useMemo(() => {
     return addresses.map((addr, idx) => {
       const d = data[addr] || {};
+      const displayName = walletNames[addr] || addr.slice(0, 5) + '...';
       return {
-        name: addr.slice(0, 5) + '...',
+        name: displayName,
         value: d.balance || 0,
-        colorHex: getWalletColor(idx) // Save the strict color string
+        colorHex: getWalletColor(idx) 
       }
     }).filter(d => d.value > 0) 
-  }, [data, addresses])
+  }, [data, addresses, walletNames])
 
   const totalStx = chartData.reduce((sum, d) => sum + d.value, 0)
 
@@ -108,7 +125,6 @@ export default function Portfolio({ addresses, removeAddress, price }) {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={chartData} innerRadius={50} outerRadius={70} paddingAngle={10} dataKey="value" stroke="none">
-                  {/* --- Injecting the strict colorHex directly into the Cell --- */}
                   {chartData.map((entry, i) => (
                     <Cell key={`cell-${i}`} fill={entry.colorHex} />
                   ))}
@@ -126,19 +142,48 @@ export default function Portfolio({ addresses, removeAddress, price }) {
           return (
             <div key={addr} className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl transition-all hover:border-slate-700">
               <div className="p-6 border-b border-slate-800 flex justify-between items-start bg-gradient-to-r from-slate-900 to-slate-950">
-                <div className="space-y-1">
+                
+                {/* --- EDITABLE WALLET NAME SECTION --- */}
+                <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    {/* --- Using the exact same function to color the dot --- */}
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: getWalletColor(idx) }} />
-                    <code className="text-xs text-slate-400 font-mono tracking-tighter">{addr}</code>
+                    <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: getWalletColor(idx) }} />
+                    
+                    {editingName === addr ? (
+                      <input 
+                        autoFocus
+                        defaultValue={walletNames[addr] || ''}
+                        placeholder="Name this wallet..."
+                        onBlur={(e) => saveWalletName(addr, e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && saveWalletName(addr, e.target.value)}
+                        className="bg-slate-950 text-white text-sm font-bold px-3 py-1 rounded border border-orange-500 outline-none w-48 shadow-inner"
+                      />
+                    ) : (
+                      <div 
+                        onClick={() => setEditingName(addr)}
+                        className="group cursor-pointer flex items-center gap-2"
+                        title="Click to rename"
+                      >
+                        <span className="text-sm font-bold text-white group-hover:text-orange-400 transition-colors">
+                          {walletNames[addr] || 'Unnamed Wallet'}
+                        </span>
+                        <span className="text-[10px] opacity-0 group-hover:opacity-100 text-slate-500 transition-opacity">✏️ Edit</span>
+                      </div>
+                    )}
                   </div>
-                  <div className="flex gap-2">
+                  
+                  {/* Keep the actual raw address visible just below the name */}
+                  <div className="flex items-center gap-2 pl-5">
+                    <code className="text-[10px] text-slate-500 font-mono tracking-tighter">{addr}</code>
+                  </div>
+
+                  <div className="flex gap-2 pl-5">
                     {d?.isWhale && <span className="bg-orange-500 text-black text-[9px] px-2 py-0.5 rounded-full font-black uppercase">Whale 🐋</span>}
                     <span className="bg-slate-800 text-slate-400 text-[9px] px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">
                         {d?.firstActivity ? `Active since ${new Date(d.firstActivity).getFullYear()}` : 'New Wallet'}
                     </span>
                   </div>
                 </div>
+
                 <div className="text-right">
                     <div className="text-2xl font-black text-white">{(d?.balance || 0).toLocaleString()} STX</div>
                     <button onClick={() => removeAddress(addr)} className="text-red-900 hover:text-red-500 text-[10px] font-bold uppercase transition-colors tracking-tighter">Remove Target</button>
