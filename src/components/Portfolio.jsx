@@ -209,20 +209,28 @@ export default function Portfolio({ addresses, removeAddress, price }) {
 
                 <div className="p-6 bg-slate-950/20">
                     <h5 className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-4">Recent Transactions</h5>
-                    <div className="space-y-3 max-h-[160px] overflow-y-auto">
+                    <div className="space-y-1 max-h-[160px] overflow-y-auto pr-1">
+                        {/* --- THE FIX: CLICKABLE TRANSACTIONS --- */}
                         {d?.txs?.length > 0 ? d.txs.map(tx => (
-                            <div key={tx.tx_id} className="flex justify-between items-center text-[10px] group border-b border-slate-800/50 pb-2">
+                            <a 
+                                key={tx.tx_id} 
+                                href={`https://explorer.hiro.so/txid/${tx.tx_id}?chain=mainnet`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex justify-between items-center text-[10px] group border-b border-slate-800/50 pb-2 hover:bg-slate-800/30 p-1.5 -mx-1.5 rounded transition-colors cursor-pointer block"
+                                title="View on Stacks Explorer"
+                            >
                                 <div className="flex flex-col">
                                     <span className="text-slate-500 font-mono group-hover:text-orange-400 transition-colors">{tx.tx_id.slice(0, 10)}...</span>
-                                    <span className="text-[9px] text-slate-400 uppercase font-black">{tx.tx_type.replace('_', ' ')}</span>
+                                    <span className="text-[9px] text-slate-400 uppercase font-black mt-0.5">{tx.tx_type.replace('_', ' ')}</span>
                                 </div>
                                 <div className="text-right">
                                     <span className={`px-1.5 py-0.5 rounded-full text-[8px] font-black ${tx.tx_status === 'success' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
                                         {tx.tx_status.toUpperCase()}
                                     </span>
                                 </div>
-                            </div>
-                        )) : <p className="text-[10px] text-slate-700">Ledger empty.</p>}
+                            </a>
+                        )) : <p className="text-[10px] text-slate-700 mt-2">Ledger empty.</p>}
                     </div>
                 </div>
               </div>
