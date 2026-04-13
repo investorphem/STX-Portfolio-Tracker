@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react
 import Portfolio from './components/Portfoli
-import { getPriceUSD, getGlobalWhaleFeed } from './lib/api
+import { getPriceUSD, getGlobalWhaleFeed } from './lib/ap
 import { connectWallet, getUserData, signOut, getUserAddressSafe } from './lib/wallet'
 
 /**
