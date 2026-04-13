@@ -21,7 +21,7 @@ const Logo = () => (
       stroke="#0f172a" 
       strokeWidth="8"
       strokeLinecap="round
-    />
+    /
   </svg>
 )
 
