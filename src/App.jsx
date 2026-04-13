@@ -20,7 +20,7 @@ const Logo = () => (
       d="M45 42L65 58" 
       stroke="#0f172a" 
       strokeWidth="8"
-      strokeLinecap="round"
+      strokeLinecap="round
     />
   </svg>
 )
