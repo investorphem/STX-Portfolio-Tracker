@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 
+import React, { useState, useEffect } from
 import Portfolio from './components/Portfoli
 import { getPriceUSD, getGlobalWhaleFeed } from './lib/ap
 import { connectWallet, getUserData, signOut, getUserAddressSafe } from './lib/wallet'
