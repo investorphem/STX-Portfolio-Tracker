@@ -25,7 +25,7 @@ const Logo = () => (
   </svg>
 )
 
-export default function App() {
+export default function App() 
   const [user, setUser] = useState(getUserData())
   const [price, setPrice] = useState(null
   const [whaleAlert, setWhaleAlert] = useState(null)
