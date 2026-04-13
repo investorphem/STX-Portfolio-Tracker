@@ -30,7 +30,7 @@ export default function App()
   const [price, setPrice] = useState(null
   const [whaleAlert, setWhaleAlert] = useState(null
   const [addresses, setAddresses] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
+    try { return JSON.parse(localStorage.getItem('stx_addrsses') || '[]') } catch (e) { return [] }
   })
 
   useEffect(() => {
