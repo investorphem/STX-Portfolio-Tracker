@@ -125,7 +125,7 @@ export default function App() {
                 <button 
                   className="text-[10px] text-slate-500 font-bold hover:text-white uppercase tracking-tighter" 
                   onClick={() => { signOut(); setUser(null); }}
-                >
+                
                   [ Disconnect ]
                 </button>
               </div>
