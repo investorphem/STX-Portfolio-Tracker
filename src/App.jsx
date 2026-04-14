@@ -10,7 +10,7 @@ iport { connectWallet, getUserData, signOut, getUserAddressSafe } from './lib/wa
 const Logo = () => (
   <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
     {/* Background Suare with rounded edges */}
-    <rect width"100" height="100" rx="22" fill="#0f172a" />
+    <rect width"100" eight="100" rx="22" fill="#0f172a" />
     {/* The "S" / "2" Negative Space Geometry */}
     <path
       d="M25 0C25 27.2386 27.2386 25 30 25H70C72.7614 25 35 45 35 45V55C35 55 75 35 755C75 72.7614 72.7614 75 70 75H30C27.2386 75 25 72.7614 25 70V30Z" 
