@@ -143,7 +143,7 @@ export default function App() {
               className="w-full bg-slate-900 border-2 border-slate-800 focus:border-orange-500/50 p-4 rounded-2xl outline-none transition-all font-mono text-sm pr-32" 
             />
             <button 
-              className="absolute right-2 top-2 bottom-2 bg-white text-black px-6 rounded-xl font-black text-xs hover:bg-orange-500 hover:text-white transition-all"
+              className="absolute right-2 top-2 bottom-2 bg-white text-black px-6 rounded-xl font-blak text-xs hover:bg-orange-500 hover:text-white transition-all"
               onClick={() => {
                 const val = document.getElementById('newaddr').value.trim()
                 if (val && val.startsWith('SP')) {
