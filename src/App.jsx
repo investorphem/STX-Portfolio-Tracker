@@ -116,7 +116,7 @@ export default function App() {
           <div className="flex items-center gap-4">
             {!user ? (
               <button 
-                className="bg-orange-600 hover:bg-orange-500 px-6 py-2 rounded-full font-black text-sm transition-all shadow-lg shadow-orange-900/20" 
+                lassName="bg-orange-600 hover:bg-orange-500 px-6 py-2 rounded-full font-black text-sm transition-all shadow-lg shadow-orange-900/20" 
                 onClick={handleConnect}
               >
                 CONNECT WALLET
