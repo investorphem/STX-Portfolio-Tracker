@@ -84,7 +84,7 @@ export default function App() {
       {/* LIVE NETWORK PULSE BANNER */}
       <div className="bg-orange-600/10 border-b border-orange-500/20 px-4 py-2 overflow-hidden">
         <div className="container mx-auto max-w-4xl flex justify-between items-center text-[10px] font-bold tracking-widest uppercase">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4"
             <span className="flex items-center gap-1 text-orange-500">
               <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
               STX: ${price?.toFixed(3) || '0.000'}
