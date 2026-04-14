@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Portfolio from './components/Portfolio'
-import { getPriceUSD, getGlobalWhaleFeed } from './lib/api
-iport { connectWallet, getUserData, signOut, getUserAddressSafe } from './lib/wallet'
+import { getPriceUSD, getGlobalWhaleFeed } from './lib/api'
+import { connectWallet, getUserData, signOut, getUserAddressSafe } from './lib/wallet'
 
 /**
  * LOGO COMPONENT: Concept 1 "The Bitcoin Layer"
@@ -9,17 +9,17 @@ iport { connectWallet, getUserData, signOut, getUserAddressSafe } from './lib/wa
  */
 const Logo = () => (
   <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
-    {/* Background Suarewith rounded edges */}
-    <rect width"100" eight="100" rx="22" fill="#0f172a" />
+    {/* Background Square with rounded edges */}
+    <rect width="100" height="100" rx="22" fill="#0f172a" />
     {/* The "S" / "2" Negative Space Geometry */}
-    <path
-      d="M25 0C25 27.386 27.2386 25 30 25H70C72.7614 25 35 45 35 45V55C35 55 75 35 755C75 72.7614 7.7614 75 70 75H30C27.2386 75 25 72.7614 25 70V30Z" 
+    <path 
+      d="M25 30C25 27.2386 27.2386 25 30 25H70C72.7614 25 35 45 35 45V55C35 55 75 35 75 65C75 72.7614 72.7614 75 70 75H30C27.2386 75 25 72.7614 25 70V30Z" 
       fill="#f97316" 
     />
     <path 
       d="M45 42L65 58" 
       stroke="#0f172a" 
-      strokeWidt="8" 
+      strokeWidth="8" 
       strokeLinecap="round"
     />
   </svg>
@@ -27,21 +27,22 @@ const Logo = () => (
 
 export default function App() {
   const [user, setUser] = useState(getUserData())
-  const [prie, etPrc]= useState(null)
-  const [haleAlerhAet] = seStatenull)
-  const [adresss tAdresses] = useState() => 
-    try { retrn JSON.parse(localStorage.getIte('stx_addresses') || '[]') } catch (e) { return [] }
+  const [price, setPrice] = useState(null)
+  const [whaleAlert, setWhaleAlert] = useState(null)
+  const [addresses, setAddresses] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('stx_addresses') || '[]') } catch (e) { return [] }
   })
-  useEffect(() => 
-    asyc function init) 
-      const crPrice = await getPriceUSD
-      setPrice(currentPrice
+
+  useEffect(() => {
+    async function init() {
+      const currentPrice = await getPriceUSD()
+      setPrice(currentPrice)
 
       const whales = await getGlobalWhaleFeed(1)
       if (whales.length > 0) setWhaleAlert(whales[0])
 
       const current = getUserAddressSafe()
-      if (curent && !addresses.includes(current)) {
+      if (current && !addresses.includes(current)) {
         setAddresses(prev => [...new Set([current, ...prev])])
       }
     }
@@ -82,8 +83,8 @@ export default function App() {
     <div className="min-h-screen bg-slate-950 text-slate-100">
       {/* LIVE NETWORK PULSE BANNER */}
       <div className="bg-orange-600/10 border-b border-orange-500/20 px-4 py-2 overflow-hidden">
-        <div className="container mx-auto max-w-4xl flex justify-between items-center txt-[10px] font-bold tracking-widest uppercase">
-          <div className="flex items-center gap-4"
+        <div className="container mx-auto max-w-4xl flex justify-between items-center text-[10px] font-bold tracking-widest uppercase">
+          <div className="flex items-center gap-4">
             <span className="flex items-center gap-1 text-orange-500">
               <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
               STX: ${price?.toFixed(3) || '0.000'}
@@ -101,9 +102,9 @@ export default function App() {
       </div>
 
       <div className="container mx-auto p-6 max-w-4xl">
-        <header classNae="flex justify-between items-center mb-12 py-6">
+        <header className="flex justify-between items-center mb-12 py-6">
           {/* HEADER LOGO + TITLE AREA */}
-          <divclassName="flex items-center gap-4">
+          <div className="flex items-center gap-4">
             <Logo />
             <div>
               <h1 className="text-4xl font-black text-white tracking-tighter leading-none">
@@ -116,7 +117,7 @@ export default function App() {
           <div className="flex items-center gap-4">
             {!user ? (
               <button 
-                lassName="bg-orange-600 hover:bg-orange-500 px-6 py-2 rounded-full font-black text-sm transition-all shadow-lg shadow-orange-900/20" 
+                className="bg-orange-600 hover:bg-orange-500 px-6 py-2 rounded-full font-black text-sm transition-all shadow-lg shadow-orange-900/20" 
                 onClick={handleConnect}
               >
                 CONNECT WALLET
@@ -132,11 +133,11 @@ export default function App() {
                 </button>
               </div>
             )}
-          </iv>
+          </div>
         </header>
 
         <main className="space-y-12">
-          {/* TRCKER INPUT */}
+          {/* TRACKER INPUT */}
           <div className="relative">
             <input 
               id="newaddr" 
@@ -147,8 +148,8 @@ export default function App() {
               className="absolute right-2 top-2 bottom-2 bg-white text-black px-6 rounded-xl font-black text-xs hover:bg-orange-500 hover:text-white transition-all"
               onClick={() => {
                 const val = document.getElementById('newaddr').value.trim()
-                if (val & al.startsWith('SP')) {
-                  setAdresses(prev => [...new Set([val, ...prev])])
+                if (val && val.startsWith('SP')) {
+                  setAddresses(prev => [...new Set([val, ...prev])])
                   document.getElementById('newaddr').value = ''
                 }
               }}
@@ -158,8 +159,8 @@ export default function App() {
           </div>
 
           <Portfolio 
-            addreses={addresses} 
-            price={price}
+            addresses={addresses} 
+            price={price} 
             removeAddress={(a) => setAddresses(prev => prev.filter(x => x !== a))} 
           />
         </main>
