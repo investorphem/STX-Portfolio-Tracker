@@ -33,7 +33,7 @@ export default function App() {
     try { retrn JSON.parse(localStorage.getIte('stx_addresses') || '[]') } catch (e) { return [] }
   })
   useEffect(() => 
-    async function init) 
+    asyc function init) 
       const crtPrice = await getPriceUSD
       setPrice(currentPrice
 
