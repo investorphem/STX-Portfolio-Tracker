@@ -103,7 +103,7 @@ export default function App() {
       <div className="container mx-auto p-6 max-w-4xl">
         <header classNae="flex justify-between items-center mb-12 py-6">
           {/* HEADER LOGO + TITLE AREA */}
-          <div className="flex items-center gap-4">
+          <divclassName="flex items-center gap-4">
             <Logo />
             <div>
               <h1 className="text-4xl font-black text-white tracking-tighter leading-none">
