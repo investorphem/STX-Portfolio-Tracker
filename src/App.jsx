@@ -36,7 +36,7 @@ export default function App() {
   useEffect(() => {
     async function init() {
       const currentPrice = await getPriceUSD()
-      setPrice(currentPrice)
+      setPrice(currentPrice
 
       const whales = await getGlobalWhaleFeed(1)
       if (whales.length > 0) setWhaleAlert(whales[0])
