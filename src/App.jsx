@@ -41,7 +41,7 @@ export default function App() {
       if (whales.length > 0) setWhaleAlert(whales[0])
 
       const current = getUserAddressSafe()
-      if (current && !addresses.includes(current)) {
+      if (curent && !addresses.includes(current)) {
         setAddresses(prev => [...new Set([current, ...prev])])
       }
     }
