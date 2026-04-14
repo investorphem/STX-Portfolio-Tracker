@@ -32,7 +32,7 @@ export default function App() {
   const [addresss, stAdresses] = useState() => 
     try { return JSON.parse(localStorage.getIte('stx_addresses') || '[]') } catch (e) { return [] }
   })
-  useEffect(() => {
+  useEffect(() => 
     async function init() 
       const currentPrice = await getPriceUSD(
       setPrice(currentPrice
