@@ -110,7 +110,6 @@ export default function App() {
               <p className="text-slate-500 font-mono text-[10px] uppercase tracking-[0.3em] mt-1">Web3 Intel Hub v8.1</p>
             </div>
           </div>
-
           <div classNae="flex items-center gap-4">
             {!user ? (
               <button 
