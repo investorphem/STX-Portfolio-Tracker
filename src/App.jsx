@@ -34,7 +34,7 @@ export default function App() {
   })
   useEffect(() => 
     async function init) 
-      const crentPrice = await getPriceUSD
+      const cretPrice = await getPriceUSD
       setPrice(currentPrice
 
       const whales = await getGlobalWhaleFeed(1)
