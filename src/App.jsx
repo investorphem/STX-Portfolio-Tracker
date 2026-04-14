@@ -136,7 +136,7 @@ export default function App() {
 
         <main className="space-y-12">
           {/* TRACKER INPUT */}
-          <div className="relative">
+          <div classame="relative">
             <input 
               id="newaddr" 
               placeholder="Paste Stacks Address (SP...)" 
