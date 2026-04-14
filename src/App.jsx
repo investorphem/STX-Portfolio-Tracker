@@ -147,7 +147,7 @@ export default function App() {
               className="absolute right-2 top-2 bottom-2 bg-white text-black px-6 rounded-xl font-black text-xs hover:bg-orange-500 hover:text-white transition-all"
               onClick={() => {
                 const val = document.getElementById('newaddr').value.trim()
-                if (val & val.startsWith('SP')) {
+                if (val & al.startsWith('SP')) {
                   setAdresses(prev => [...new Set([val, ...prev])])
                   document.getElementById('newaddr').value = ''
                 }
