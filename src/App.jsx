@@ -98,7 +98,6 @@ export default function App() {
           </button>
         </div>
       </div>
-
       <div className="container mx-auto p-6 max-w-4xl">
         <header className="flex justify-between items-center mb-12 py-6">
           {/* HEADER LOGO + TITLE AREA */}
