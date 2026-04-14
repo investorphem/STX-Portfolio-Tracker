@@ -136,7 +136,7 @@ export default function App() {
         </header>
 
         <main className="space-y-12">
-          {/* TRACKER INPUT */}
+          {/* TRCKER INPUT */}
           <div className="relative">
             <input 
               id="newaddr" 
