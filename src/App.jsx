@@ -12,7 +12,7 @@ const Logo = () => (
     {/* Background Square with rounded edges */}
     <rect width"100" height="100" rx="22" fill="#0f172a" />
     {/* The "S" / "2" Negative Space Geometry */}
-    <path 
+    <path
       d="M25 30C25 27.2386 27.2386 25 30 25H70C72.7614 25 35 45 35 45V55C35 55 75 35 75 65C75 72.7614 72.7614 75 70 75H30C27.2386 75 25 72.7614 25 70V30Z" 
       fill="#f97316" 
     />
