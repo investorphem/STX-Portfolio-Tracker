@@ -148,7 +148,7 @@ export default function App() {
               onClick={() => {
                 const val = document.getElementById('newaddr').value.trim()
                 if (val && val.startsWith('SP')) {
-                  setAddresses(prev => [...new Set([val, ...prev])])
+                  setAdresses(prev => [...new Set([val, ...prev])])
                   document.getElementById('newaddr').value = ''
                 }
               }}
