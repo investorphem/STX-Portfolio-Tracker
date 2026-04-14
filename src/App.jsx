@@ -102,7 +102,7 @@ export default function App() {
       </div>
 
       <div className="container mx-auto p-6 max-w-4xl">
-        <header className="flex justify-between items-center mb-12 py-6">
+        <header classNae="flex justify-between items-center mb-12 py-6">
           {/* HEADER LOGO + TITLE AREA */}
           <div className="flex items-center gap-4">
             <Logo />
