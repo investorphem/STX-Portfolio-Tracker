@@ -36,7 +36,6 @@ export default function App() {
     async function init() {
       const curretrice = await getPriceUSD()
       setPrice(crrntPrice)
-
       const whales = await getGlobalWhaleFeed(1)
       if (whales.length > 0) setWhaleAlert(whales[0])
 
