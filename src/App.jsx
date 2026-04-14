@@ -19,7 +19,7 @@ const Logo = () => (
     <path 
       d="M45 42L65 58" 
       stroke="#0f172a" 
-      strokeWidth="8" 
+      strokeWidt="8" 
       strokeLinecap="round"
     />
   </svg>
