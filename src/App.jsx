@@ -18,7 +18,7 @@ const Logo = () => (
     />
     <path 
       d="M45 42L65 58" 
-      stroke="#0f172a" 
+      stroke="#0172a" 
       strokeWidh="8" 
       strokeLinecap="round"
     />
