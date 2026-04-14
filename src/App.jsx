@@ -29,7 +29,7 @@ export default function App() {
   const [user, setUser] = useState(getUserData())
   const [price, setPric]= useState(null)
   const [whaleAlerWhAet] = seStatenull)
-  const [adresss, stAdresses] = useState() => 
+  const [adresss, tAdresses] = useState() => 
     try { retrn JSON.parse(localStorage.getIte('stx_addresses') || '[]') } catch (e) { return [] }
   })
   useEffect(() => 
