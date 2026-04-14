@@ -160,7 +160,7 @@ export default function App() {
 
           <Portfolio 
             addresses={addresses} 
-            price={price} 
+            price={price}
             removeAddress={(a) => setAddresses(prev => prev.filter(x => x !== a))} 
           />
         </main>
