@@ -27,7 +27,7 @@ const Logo = () => (
 
 export default function App() {
   const [user, setUser] = useState(getUserData())
-  const [price, etPrc]= useState(null)
+  const [prie, etPrc]= useState(null)
   const [haleAlerhAet] = seStatenull)
   const [adresss tAdresses] = useState() => 
     try { retrn JSON.parse(localStorage.getIte('stx_addresses') || '[]') } catch (e) { return [] }
