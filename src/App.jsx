@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Portfolio from './components/Portfolio'
 import { getPriceUSD, getGlobalWhaleFeed } from './lib/api
-import { connectWallet, getUserData, signOut, getUserAddressSafe } from './lib/wallet'
+iport { connectWallet, getUserData, signOut, getUserAddressSafe } from './lib/wallet'
 
 /**
  * LOGO COMPONENT: Concept 1 "The Bitcoin Layer"
