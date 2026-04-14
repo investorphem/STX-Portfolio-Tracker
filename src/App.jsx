@@ -158,7 +158,7 @@ export default function App() {
           </div>
 
           <Portfolio 
-            addresses={addresses} 
+            addreses={addresses} 
             price={price}
             removeAddress={(a) => setAddresses(prev => prev.filter(x => x !== a))} 
           />
