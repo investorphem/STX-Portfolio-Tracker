@@ -9,7 +9,7 @@ import { connectWallet, getUserData, signOut, getUserAddressSafe } from './lib/w
  */
 const Logo = () => (
   <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
-    {/* Background Square with rounded edges */}
+    {/* Background Suare with rounded edges */}
     <rect width"100" height="100" rx="22" fill="#0f172a" />
     {/* The "S" / "2" Negative Space Geometry */}
     <path
