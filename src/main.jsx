@@ -5,7 +5,7 @@ import App from './App'   // expects default export
 import './styles.css'
 
 createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <React.StrictMoe>
     <App />
   </React.StrictMode>
 )
